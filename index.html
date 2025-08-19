@@ -16,138 +16,144 @@
             background: #ffffff;
             color: #37352f;
             line-height: 1.5;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        .container {
-            max-width: 900px;
+        .main-container {
+            max-width: 1400px;
             margin: 0 auto;
-            position: relative;
-        }
-
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 32px;
-        }
-
-        .time-header {
-            flex: 1;
-        }
-
-        .time-small {
-            font-size: 14px;
-            color: #787774;
-            margin-bottom: 4px;
-            font-weight: 400;
-        }
-
-        .day-date {
-            font-size: 16px;
-            color: #37352f;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .current-time {
-            font-size: 48px;
-            font-weight: 600;
-            color: #37352f;
-            margin-bottom: 24px;
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
-        }
-
-        .mini-calendar {
-            background: #f7f6f3;
-            border-radius: 8px;
-            padding: 12px;
-            width: 200px;
-            margin-left: 20px;
-        }
-
-        .calendar-header {
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #37352f;
-        }
-
-        .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            min-height: 100vh;
+            padding: 0 20px;
         }
 
-        .calendar-day {
-            text-align: center;
-            padding: 4px 2px;
-            font-size: 12px;
-            color: #787774;
-        }
-
-        .calendar-day.header {
-            font-weight: 600;
-            color: #37352f;
-            font-size: 10px;
-        }
-
-        .calendar-day.current {
-            background: #2383e2;
-            color: white;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .calendar-day.other-month {
-            color: #c5c5c5;
-        }
-
-        .progress-section {
-            margin-bottom: 40px;
-            padding: 20px 0;
-            border-top: 1px solid #e9e9e7;
-            border-bottom: 1px solid #e9e9e7;
-        }
-
-        .progress-info {
+        .left-column {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+            flex-direction: column;
+            min-width: 0; /* Prevents overflow */
         }
 
-        .progress-label {
-            font-size: 14px;
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 300px;
+            max-width: 320px;
+        }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .date-display {
+            font-size: 18px;
+            font-weight: 600;
             color: #37352f;
-            font-weight: 500;
+            margin-bottom: 8px;
         }
 
-        .progress-percent {
-            font-size: 14px;
-            color: #787774;
-            font-weight: 400;
+        .time-display {
+            font-size: 50px;
+            font-weight: 900;
+            color: #37352f;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid #c5c5c5;
+            border-radius: 8px;
+            width: 36px;
+            height: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            border-color: #787774;
+        }
+
+        .brightness-icon {
+            width: 18px;
+            height: 18px;
+            stroke: #787774;
+            fill: none;
+            stroke-width: 1.5;
+            transition: all 0.15s ease;
+        }
+
+        .theme-toggle:hover .brightness-icon {
+            stroke: #37352f;
         }
 
         .progress-container {
-            width: 100%;
-            height: 6px;
-            background: #f1f1ef;
-            border-radius: 3px;
+            position: relative;
+            flex: 1;
+            height: 25px;
+            background: linear-gradient(90deg, #9b59b6, #3498db, #87ceeb, #3498db, #9b59b6);
+            border-radius: 12px;
             overflow: hidden;
         }
 
-        .progress-bar {
-            height: 100%;
-            background: #2383e2;
-            border-radius: 3px;
-            transition: width 0.5s ease;
+        .progress-percent {
+            font-size: 18px;
+            font-weight: bold;
+            color: #37352f;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            height: 25px;
         }
 
+        .progress-passed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #666, #888, #999, #888, #666);
+            transition: width 0.5s ease;
+            border-radius: 12px 0 0 12px;
+        }
+
+        .time-indicator {
+            position: absolute;
+            top: -2px;
+            width: 4px;
+            height: 29px;
+            background: #f1c40f;
+            border-radius: 2px;
+            transition: left 0.5s ease;
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+        }
+
+        .progress-percent {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            color: #37352f;
+        }
+
+        /* Schedule Section */
         .schedule-section {
-            margin-bottom: 40px;
-            position: relative;
+            flex: 1;
         }
 
         .section-title {
@@ -158,40 +164,72 @@
         }
 
         .schedule-grid {
-            position: relative;
+            display: grid;
+            grid-template-columns: 60px 1fr;
             background: #fafafa;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 20px;
             min-height: 500px;
+            position: relative;
         }
 
-        .time-divider {
+        .time-column {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e9e9e7;
+            padding-right: 15px;
+            position: relative;
+        }
+
+        .am-pm-label {
             position: absolute;
-            left: 0;
-            right: 0;
-            height: 1px;
-            border-top: 2px dotted #d1d1d1;
-            z-index: 1;
+            right: -8px;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+            font-size: 10px;
+            color: #c5c5c5;
+            font-weight: 600;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            z-index: 5;
         }
 
-        .time-divider.am {
-            top: 25%;
+        .am-label {
+            top: 200px;
         }
 
-        .time-divider.pm {
-            top: 50%;
+        .pm-label {
+            top: 520px;
         }
 
-        .time-divider::before {
-            content: attr(data-time);
-            position: absolute;
-            left: 10px;
-            top: -10px;
-            background: #fafafa;
-            padding: 0 8px;
+        .time-slot {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
             font-size: 12px;
-            color: #787774;
-            font-weight: 500;
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+
+        .time-slot.hour {
+            color: #37352f;
+            font-weight: 600;
+        }
+
+        .time-slot.noon-midnight {
+            color: #2383e2;
+            font-weight: 700;
+        }
+
+        .time-slot.pm-marker {
+            border-top: 1px dotted #c5c5c5;
+            position: relative;
+        }
+
+        .events-column {
+            padding-left: 15px;
+            position: relative;
         }
 
         .time-progress-line {
@@ -199,97 +237,61 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: #ff4757;
+            background: rgba(255, 71, 87, 0.7);
             z-index: 10;
             transition: top 0.5s ease;
             border-radius: 1px;
         }
 
-        .time-progress-line::before {
-            content: '';
-            position: absolute;
-            left: -4px;
-            top: -2px;
-            width: 8px;
-            height: 6px;
-            background: #ff4757;
-            border-radius: 50%;
-        }
-
-        .time-row {
+        .events-row {
+            height: 40px;
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 5;
-        }
-
-        .time-label {
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
-            font-size: 12px;
-            color: #787774;
-            font-weight: 500;
-            width: 50px;
-            flex-shrink: 0;
-            margin-right: 15px;
-            text-align: right;
-            padding-top: 4px;
-        }
-
-        .events-container {
-            flex: 1;
-            display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             gap: 8px;
-            align-items: flex-start;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 40px;
+            padding: 4px 0;
+        }
+
+        .events-row.drag-over {
+            background: rgba(35, 131, 226, 0.1);
+            border-radius: 6px;
         }
 
         .event-block {
-            background: #f7f6f3;
-            border: 2px solid transparent;
-            border-radius: 6px;
-            padding: 6px 12px;
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
             cursor: move;
             transition: all 0.15s ease;
             position: relative;
-            min-width: 120px;
-            max-width: 250px;
+            min-width: 80px;
+            max-width: 150px;
         }
 
         .event-block:hover {
-            border-color: #e9e9e7;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
         }
 
         .event-block.dragging {
             opacity: 0.7;
-            transform: rotate(2deg);
             z-index: 1000;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .event-block.current {
-            background-color: #2383e2;
-            color: white;
-            border-color: #2383e2;
-        }
-
         .event-content {
-            font-size: 14px;
-            color: #37352f;
-            font-weight: 500;
             background: transparent;
             border: none;
             outline: none;
+            font-size: 12px;
+            font-weight: 500;
             width: 100%;
-        }
-
-        .event-block.current .event-content {
-            color: white;
-        }
-
-        .event-content::placeholder {
-            color: #c5c5c5;
+            color: inherit;
         }
 
         .delete-btn {
@@ -300,9 +302,9 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 11px;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
             cursor: pointer;
             display: none;
             align-items: center;
@@ -315,14 +317,12 @@
 
         .add-event-btn {
             background: none;
-            border: 2px dashed #c5c5c5;
+            border: 1px dashed #c5c5c5;
             color: #787774;
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 12px;
-            transition: all 0.15s ease;
-            min-width: 120px;
+            font-size: 11px;
         }
 
         .add-event-btn:hover {
@@ -330,367 +330,913 @@
             color: #2383e2;
         }
 
-        .drop-zone {
-            min-height: 30px;
-            border: 2px dashed transparent;
+        /* Right Column - Calendar Section */
+        .email-calendar-section {
+            background: #f7f6f3;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 350px;
+        }
+
+        .section-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #37352f;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-sync-btn, .email-sync-btn {
+            background: #2383e2;
+            color: white;
+            border: none;
             border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .calendar-sync-btn:hover, .email-sync-btn:hover {
+            background: #1e6bb8;
+        }
+
+        .sync-status {
+            font-size: 11px;
+            color: #787774;
+            margin-bottom: 12px;
+        }
+
+        .mini-calendar {
+            flex: 1;
+        }
+
+        .calendar-header {
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #37352f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #787774;
+            padding: 4px;
+        }
+
+        .nav-btn:hover {
+            color: #37352f;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 6px 2px;
+            font-size: 11px;
+            color: #787774;
+            cursor: pointer;
+            border-radius: 4px;
             transition: all 0.15s ease;
         }
 
-        .drop-zone.drag-over {
-            border-color: #2383e2;
-            background: rgba(35, 131, 226, 0.05);
-        }
-
-        .stats-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid #e9e9e7;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 32px;
+        .calendar-day.header {
             font-weight: 600;
             color: #37352f;
-            margin-bottom: 4px;
+            font-size: 10px;
+            cursor: default;
         }
 
-        .stat-label {
-            font-size: 14px;
+        .calendar-day.current {
+            background: #2383e2;
+            color: white;
+            font-weight: 600;
+        }
+
+        .calendar-day.selected {
+            background: #ff9800;
+            color: white;
+            font-weight: 600;
+        }
+
+        .calendar-day.other-month {
+            color: #c5c5c5;
+        }
+
+        .calendar-day:hover:not(.header):not(.other-month) {
+            background: #e3f2fd;
+        }
+
+        /* Right Column - Category Section */
+        .category-section {
+            background: #f7f6f3;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 300px;
+        }
+
+        .category-list {
+            flex: 1;
+            margin-bottom: 12px;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding: 6px;
+            border-radius: 6px;
+            transition: background 0.15s ease;
+        }
+
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .category-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .category-name {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            color: #37352f;
+        }
+
+        .category-delete {
+            background: none;
+            border: none;
+            color: #ff4757;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+
+        .category-item:hover .category-delete {
+            opacity: 1;
+        }
+
+        .add-category-btn {
+            background: none;
+            border: 1px dashed #c5c5c5;
             color: #787774;
-            font-weight: 400;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .add-category-btn:hover {
+            border-color: #2383e2;
+            color: #2383e2;
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.15s ease;
+        }
+
+        .color-option:hover {
+            border-color: #37352f;
+        }
+
+        /* Color Palette */
+        .color-option:nth-child(1) { background: #fce4ec; }
+        .color-option:nth-child(2) { background: #f3e5f5; }
+        .color-option:nth-child(3) { background: #e8eaf6; }
+        .color-option:nth-child(4) { background: #e3f2fd; }
+        .color-option:nth-child(5) { background: #f8bbd9; }
+        .color-option:nth-child(6) { background: #e1bee7; }
+        .color-option:nth-child(7) { background: #c5cae9; }
+        .color-option:nth-child(8) { background: #bbdefb; }
+        .color-option:nth-child(9) { background: #f48fb1; }
+        .color-option:nth-child(10) { background: #ce93d8; }
+        .color-option:nth-child(11) { background: #9fa8da; }
+        .color-option:nth-child(12) { background: #90caf9; }
+        .color-option:nth-child(13) { background: #f06292; }
+        .color-option:nth-child(14) { background: #ba68c8; }
+        .color-option:nth-child(15) { background: #7986cb; }
+        .color-option:nth-child(16) { background: #64b5f6; }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e4e4e4;
+        }
+
+        .dark-mode .main-container {
+            color: #e4e4e4;
+        }
+
+        .dark-mode .date-display,
+        .dark-mode .time-display,
+        .dark-mode .section-title {
+            color: #e4e4e4;
+        }
+
+        .dark-mode .schedule-grid {
+            background: #2d2d2d;
+            border: 1px solid #404040;
+        }
+
+        .dark-mode .time-column {
+            border-right-color: #404040;
+        }
+
+        .dark-mode .time-slot {
+            color: #666;
+        }
+
+        .dark-mode .time-slot.hour {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .time-slot.noon-midnight {
+            color: #64b5f6;
+        }
+
+        .dark-mode .email-calendar-section,
+        .dark-mode .category-section {
+            background: #2d2d2d;
+            border: 1px solid #404040;
+        }
+
+        .dark-mode .section-header {
+            color: #e4e4e4;
+        }
+
+        .dark-mode .calendar-day {
+            color: #a0a0a0;
+        }
+
+        .dark-mode .calendar-day.header {
+            color: #e4e4e4;
+        }
+
+        .dark-mode .calendar-day:hover:not(.header):not(.other-month) {
+            background: #404040;
+        }
+
+        .dark-mode .category-item:hover {
+            background: rgba(64, 64, 64, 0.5);
+        }
+
+        .dark-mode .category-name {
+            color: #e4e4e4;
+        }
+
+        .dark-mode .event-content {
+            color: #37352f !important;
+        }
+
+        .dark-mode .theme-toggle {
+            border-color: #606060;
+        }
+
+        .dark-mode .theme-toggle:hover {
+            border-color: #a0a0a0;
+        }
+
+        .dark-mode .brightness-icon {
+            stroke: #a0a0a0;
+            fill: #a0a0a0;
+        }
+
+        .dark-mode .theme-toggle:hover .brightness-icon {
+            stroke: #e4e4e4;
+            fill: #e4e4e4;
+        }
+
+        .dark-mode .am-pm-label {
+            color: #606060;
+        }
+
+        .dark-mode .progress-percent {
+            color: #e4e4e4;
+        }
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .right-column {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .container {
-                max-width: 100%;
-            }
-            
-            .header-section {
-                flex-direction: column;
-            }
-            
-            .mini-calendar {
-                margin-left: 0;
-                margin-top: 20px;
-                align-self: center;
-            }
-            
-            .current-time {
-                font-size: 40px;
-            }
-            
-            .stats-section {
+            .right-column {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                grid-template-rows: auto auto;
             }
             
-            .event-block {
-                min-width: 100px;
-                max-width: 200px;
+            .schedule-grid {
+                grid-template-columns: 50px 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header-section">
-            <div class="time-header">
-                <div class="time-small" id="timeSmall">00:00</div>
-                <div class="day-date" id="dayDate">Sunday (01|01|25)</div>
-                <div class="current-time" id="currentTime">12:00:00</div>
+    <div class="main-container">
+        <div class="left-column">
+            <div class="header-section">
+                <div class="date-display" id="dateDisplay">Sunday, August 19th 2025</div>
+                <div class="time-display" id="timeDisplay">12:00:00</div>
             </div>
-            <div class="mini-calendar" id="miniCalendar">
-                <!-- Calendar will be generated here -->
+
+            <div class="progress-section">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                    <svg class="brightness-icon" viewBox="0 0 24 24" id="brightnessIcon">
+                        <!-- Light mode icon (outline) -->
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="m12 2v2"/>
+                        <path d="m12 20v2"/>
+                        <path d="m4.93 4.93 1.41 1.41"/>
+                        <path d="m17.66 17.66 1.41 1.41"/>
+                        <path d="M2 12h2"/>
+                        <path d="M20 12h2"/>
+                        <path d="m6.34 17.66-1.41 1.41"/>
+                        <path d="m19.07 4.93-1.41 1.41"/>
+                    </svg>
+                </button>
+                <div class="progress-container">
+                    <div class="progress-passed" id="progressPassed"></div>
+                    <div class="time-indicator" id="timeIndicator"></div>
+                </div>
+                <div class="progress-percent" id="progressPercent">50%</div>
+            </div>
+
+            <div class="schedule-section">
+                <h2 class="section-title">Today's Schedule</h2>
+                <div class="schedule-grid">
+                    <div class="time-column" id="timeColumn">
+                        <!-- Time slots will be generated here -->
+                    </div>
+                    <div class="events-column" id="eventsColumn">
+                        <div class="time-progress-line" id="timeProgressLine"></div>
+                        <!-- Event rows will be generated here -->
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="progress-section">
-            <div class="progress-info">
-                <div class="progress-label">Day Progress</div>
-                <div class="progress-percent" id="progressPercent">0%</div>
+        <div class="right-column">
+            <div class="email-calendar-section">
+                <div class="section-header">
+                    Calendar Sync
+                </div>
+                <button class="calendar-sync-btn" onclick="syncGoogleCalendar()">🗓️ Sync Google Calendar</button>
+                <button class="email-sync-btn" onclick="syncOutlook()">📧 Sync Outlook</button>
+                <div class="sync-status" id="syncStatus">Not connected</div>
+                
+                <div class="mini-calendar">
+                    <div class="calendar-header">
+                        <button class="nav-btn" onclick="previousMonth()">&lt;</button>
+                        <span id="calendarMonth">August 2025</span>
+                        <button class="nav-btn" onclick="nextMonth()">&gt;</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be generated here -->
+                    </div>
+                </div>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-        </div>
 
-        <div class="schedule-section">
-            <h2 class="section-title">Today's Schedule</h2>
-            <div class="schedule-grid" id="scheduleGrid">
-                <div class="time-divider am" data-time="12:00 PM"></div>
-                <div class="time-divider pm" data-time="12:00 AM"></div>
-                <div class="time-progress-line" id="timeProgressLine"></div>
-                <!-- Schedule rows will be populated here -->
-            </div>
-        </div>
-
-        <div class="stats-section">
-            <div class="stat-item">
-                <div class="stat-value" id="hoursRemaining">12</div>
-                <div class="stat-label">Hours Remaining</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="minutesElapsed">720</div>
-                <div class="stat-label">Minutes Elapsed</div>
+            <div class="category-section">
+                <div class="section-header">
+                    Event Categories
+                </div>
+                <div class="category-list" id="categoryList">
+                    <!-- Categories will be generated here -->
+                </div>
+                <button class="add-category-btn" onclick="addCategory()">+ Add Category</button>
+                <div class="color-palette">
+                    <!-- Color options 1-16 -->
+                    <div class="color-option" onclick="selectColor('#fce4ec')"></div>
+                    <div class="color-option" onclick="selectColor('#f3e5f5')"></div>
+                    <div class="color-option" onclick="selectColor('#e8eaf6')"></div>
+                    <div class="color-option" onclick="selectColor('#e3f2fd')"></div>
+                    <div class="color-option" onclick="selectColor('#f8bbd9')"></div>
+                    <div class="color-option" onclick="selectColor('#e1bee7')"></div>
+                    <div class="color-option" onclick="selectColor('#c5cae9')"></div>
+                    <div class="color-option" onclick="selectColor('#bbdefb')"></div>
+                    <div class="color-option" onclick="selectColor('#f48fb1')"></div>
+                    <div class="color-option" onclick="selectColor('#ce93d8')"></div>
+                    <div class="color-option" onclick="selectColor('#9fa8da')"></div>
+                    <div class="color-option" onclick="selectColor('#90caf9')"></div>
+                    <div class="color-option" onclick="selectColor('#f06292')"></div>
+                    <div class="color-option" onclick="selectColor('#ba68c8')"></div>
+                    <div class="color-option" onclick="selectColor('#7986cb')"></div>
+                    <div class="color-option" onclick="selectColor('#64b5f6')"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        let currentDate = new Date();
+        let selectedDate = new Date();
+        let viewingMonth = new Date();
+        let selectedCategoryForColor = null;
+
         let scheduleData = [
-            { id: 1, time: "08:00", content: "Morning Routine" },
-            { id: 2, time: "08:00", content: "Breakfast" },
-            { id: 3, time: "09:00", content: "Mathematics Lecture" },
-            { id: 4, time: "10:30", content: "Study Break" },
-            { id: 5, time: "11:00", content: "Computer Science Lab" },
-            { id: 6, time: "12:30", content: "Lunch Break" },
-            { id: 7, time: "12:30", content: "Drink Water" },
-            { id: 8, time: "14:00", content: "Physics Tutorial" },
-            { id: 9, time: "15:30", content: "Library Study" },
-            { id: 10, time: "17:00", content: "Gym" },
-            { id: 11, time: "18:30", content: "Dinner" },
-            { id: 12, time: "19:30", content: "Assignment Work" },
-            { id: 13, time: "21:00", content: "Free Time" },
-            { id: 14, time: "22:30", content: "Prepare for Tomorrow" }
+            { id: 1, time: "08:00", content: "Morning Routine", category: "personal" },
+            { id: 2, time: "09:00", content: "Mathematics Lecture", category: "study" },
+            { id: 3, time: "12:30", content: "Lunch", category: "food" },
+            { id: 4, time: "12:30", content: "Drink Water", category: "health" },
+            { id: 5, time: "14:00", content: "Physics Tutorial", category: "study" },
+            { id: 6, time: "17:00", content: "Gym", category: "fitness" },
+            { id: 7, time: "19:30", content: "Assignment Work", category: "study" }
         ];
 
-        let draggedElement = null;
-        let nextId = 15;
+        let categories = [
+            { id: "personal", name: "Personal", color: "#fce4ec" },
+            { id: "study", name: "Study", color: "#e3f2fd" },
+            { id: "food", name: "Food", color: "#f8bbd9" },
+            { id: "health", name: "Health", color: "#c5cae9" },
+            { id: "fitness", name: "Fitness", color: "#90caf9" }
+        ];
 
-        function createMiniCalendar() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
-            const today = now.getDate();
+        let nextEventId = 8;
+        let nextCategoryId = 6;
+        let isDarkMode = false;
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const body = document.body;
+            const brightnessIcon = document.getElementById('brightnessIcon');
             
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"];
-            
-            const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-            
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
-            
-            let calendarHTML = `<div class="calendar-header">${monthNames[month]} ${year}</div>`;
-            calendarHTML += '<div class="calendar-grid">';
-            
-            daysOfWeek.forEach(day => {
-                calendarHTML += `<div class="calendar-day header">${day}</div>`;
-            });
-            
-            for (let i = firstDay - 1; i >= 0; i--) {
-                const day = daysInPrevMonth - i;
-                calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
+            if (isDarkMode) {
+                body.classList.add('dark-mode');
+                // Dark mode icon (filled)
+                brightnessIcon.innerHTML = `
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                    <path d="m12 2v2" fill="currentColor"/>
+                    <path d="m12 20v2" fill="currentColor"/>
+                    <path d="m4.93 4.93 1.41 1.41" fill="currentColor"/>
+                    <path d="m17.66 17.66 1.41 1.41" fill="currentColor"/>
+                    <path d="M2 12h2" fill="currentColor"/>
+                    <path d="M20 12h2" fill="currentColor"/>
+                    <path d="m6.34 17.66-1.41 1.41" fill="currentColor"/>
+                    <path d="m19.07 4.93-1.41 1.41" fill="currentColor"/>
+                `;
+                brightnessIcon.style.fill = 'currentColor';
+                brightnessIcon.style.stroke = 'none';
+            } else {
+                body.classList.remove('dark-mode');
+                // Light mode icon (outline)
+                brightnessIcon.innerHTML = `
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="m12 2v2"/>
+                    <path d="m12 20v2"/>
+                    <path d="m4.93 4.93 1.41 1.41"/>
+                    <path d="m17.66 17.66 1.41 1.41"/>
+                    <path d="M2 12h2"/>
+                    <path d="M20 12h2"/>
+                    <path d="m6.34 17.66-1.41 1.41"/>
+                    <path d="m19.07 4.93-1.41 1.41"/>
+                `;
+                brightnessIcon.style.fill = 'none';
+                brightnessIcon.style.stroke = 'currentColor';
+                brightnessIcon.style.strokeWidth = '1.5';
             }
-            
-            for (let day = 1; day <= daysInMonth; day++) {
-                const isToday = day === today;
-                const classes = isToday ? 'calendar-day current' : 'calendar-day';
-                calendarHTML += `<div class="${classes}">${day}</div>`;
-            }
-            
-            const remainingCells = 42 - (firstDay + daysInMonth);
-            for (let day = 1; day <= remainingCells && remainingCells < 7; day++) {
-                calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
-            }
-            
-            calendarHTML += '</div>';
-            document.getElementById('miniCalendar').innerHTML = calendarHTML;
         }
 
         function updateTime() {
             const now = new Date();
             
-            const timeString = now.toTimeString().slice(0, 5);
-            document.getElementById('timeSmall').textContent = timeString;
+            // Update time display
+            const timeString = now.toTimeString().slice(0, 8);
+            document.getElementById('timeDisplay').textContent = timeString;
             
-            const currentTimeString = now.toTimeString().slice(0, 8);
-            document.getElementById('currentTime').textContent = currentTimeString;
-            
+            // Update date display
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const dayName = days[now.getDay()];
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = String(now.getFullYear()).slice(-2);
-            const dateString = `${dayName} (${day}|${month}|${year})`;
-            document.getElementById('dayDate').textContent = dateString;
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayName = days[selectedDate.getDay()];
+            const monthName = months[selectedDate.getMonth()];
+            const day = selectedDate.getDate();
+            const year = selectedDate.getFullYear();
             
-            // Top progress bar
+            // Format: "Sunday, August 19th 2025"
+            const dayWithSuffix = day + (day % 10 === 1 && day !== 11 ? 'st' : 
+                                        day % 10 === 2 && day !== 12 ? 'nd' : 
+                                        day % 10 === 3 && day !== 13 ? 'rd' : 'th');
+            const dateString = `${dayName}, ${monthName} ${dayWithSuffix} ${year}`;
+            document.getElementById('dateDisplay').textContent = dateString;
+            
+            // Progress bar calculations
             const totalMinutesInDay = 24 * 60;
             const currentMinutes = now.getHours() * 60 + now.getMinutes();
             const progressPercentage = (currentMinutes / totalMinutesInDay) * 100;
             
-            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+            // Update progress bar
+            document.getElementById('progressPassed').style.width = `${progressPercentage}%`;
+            document.getElementById('timeIndicator').style.left = `${progressPercentage}%`;
             document.getElementById('progressPercent').textContent = `${Math.round(progressPercentage)}%`;
             
-            // Vertical time progress line
-            const scheduleGrid = document.getElementById('scheduleGrid');
-            const gridHeight = scheduleGrid.offsetHeight - 40; // Subtract padding
-            const progressPosition = (currentMinutes / totalMinutesInDay) * gridHeight + 20; // Add top padding
-            document.getElementById('timeProgressLine').style.top = `${progressPosition}px`;
-            
-            const hoursRemaining = Math.ceil((totalMinutesInDay - currentMinutes) / 60);
-            document.getElementById('hoursRemaining').textContent = hoursRemaining;
-            document.getElementById('minutesElapsed').textContent = currentMinutes;
-            
-            updateScheduleHighlight(now);
+            // Update vertical progress line
+            const eventsColumn = document.getElementById('eventsColumn');
+            if (eventsColumn) {
+                const columnHeight = eventsColumn.offsetHeight;
+                const linePosition = (currentMinutes / totalMinutesInDay) * columnHeight;
+                const progressLine = document.getElementById('timeProgressLine');
+                progressLine.style.top = `${linePosition}px`;
+                
+                // Check which events the line is passing through
+                updateTimeLineVisibility(linePosition);
+            }
         }
 
-        function updateScheduleHighlight(now) {
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const currentTimeInMinutes = currentHour * 60 + currentMinute;
+        function updateTimeLineVisibility(linePosition) {
+            const eventBlocks = document.querySelectorAll('.event-block');
+            const progressLine = document.getElementById('timeProgressLine');
+            let isPassingThroughEvent = false;
             
-            document.querySelectorAll('.event-block').forEach(block => {
-                block.classList.remove('current');
-            });
-            
-            scheduleData.forEach(item => {
-                const [blockHour, blockMinute] = item.time.split(':').map(Number);
-                const blockTimeInMinutes = blockHour * 60 + blockMinute;
+            eventBlocks.forEach(block => {
+                const blockRect = block.getBoundingClientRect();
+                const eventsColumn = document.getElementById('eventsColumn');
+                const columnRect = eventsColumn.getBoundingClientRect();
                 
-                if (Math.abs(currentTimeInMinutes - blockTimeInMinutes) < 30) {
-                    const block = document.getElementById(`event-${item.id}`);
-                    if (block) block.classList.add('current');
+                // Calculate block position relative to events column
+                const blockTop = blockRect.top - columnRect.top;
+                const blockBottom = blockTop + blockRect.height;
+                
+                // Check if the time line passes through this event (with some tolerance)
+                if (linePosition >= blockTop - 5 && linePosition <= blockBottom + 5) {
+                    block.classList.add('time-line-passing');
+                    isPassingThroughEvent = true;
+                } else {
+                    block.classList.remove('time-line-passing');
                 }
             });
+            
+            // Update the main progress line opacity
+            if (isPassingThroughEvent) {
+                progressLine.classList.add('faded');
+            } else {
+                progressLine.classList.remove('faded');
+            }
         }
 
-        function groupEventsByTime(events) {
-            const grouped = {};
-            events.forEach(event => {
-                if (!grouped[event.time]) {
-                    grouped[event.time] = [];
-                }
-                grouped[event.time].push(event);
-            });
-            return grouped;
-        }
-
-        function createSchedule() {
-            const container = document.getElementById('scheduleGrid');
-            const existingContent = container.innerHTML;
-            container.innerHTML = existingContent.split('<!-- Schedule rows')[0] + '<!-- Schedule rows will be populated here -->';
+        function createTimeSlots() {
+            const timeColumn = document.getElementById('timeColumn');
+            const eventsColumn = document.getElementById('eventsColumn');
             
-            const groupedEvents = groupEventsByTime(scheduleData);
-            const sortedTimes = Object.keys(groupedEvents).sort();
+            timeColumn.innerHTML = '';
+            eventsColumn.innerHTML = '<div class="time-progress-line" id="timeProgressLine"></div>';
             
-            sortedTimes.forEach(time => {
-                const events = groupedEvents[time];
-                const row = document.createElement('div');
-                row.className = 'time-row';
+            for (let hour = 0; hour < 24; hour++) {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                if (hour === 12) timeSlot.classList.add('pm-marker');
                 
-                const timeLabel = document.createElement('div');
-                timeLabel.className = 'time-label';
-                timeLabel.textContent = time;
+                const timeString = String(hour).padStart(2, '0') + ':00';
+                timeSlot.textContent = timeString;
+                timeColumn.appendChild(timeSlot);
                 
-                const eventsContainer = document.createElement('div');
-                eventsContainer.className = 'events-container';
-                eventsContainer.addEventListener('dragover', handleDragOver);
-                eventsContainer.addEventListener('drop', handleDrop);
+                const eventsRow = document.createElement('div');
+                eventsRow.className = 'events-row';
+                eventsRow.dataset.hour = hour;
                 
-                events.forEach(event => {
-                    const eventBlock = document.createElement('div');
-                    eventBlock.className = 'event-block';
-                    eventBlock.id = `event-${event.id}`;
-                    eventBlock.draggable = true;
-                    eventBlock.innerHTML = `
-                        <input type="text" class="event-content" value="${event.content}" 
-                               placeholder="Enter event..."
-                               onchange="updateEventContent(${event.id}, this.value)">
-                        <button class="delete-btn" onclick="deleteEvent(${event.id})">×</button>
-                    `;
-                    
-                    eventBlock.addEventListener('dragstart', handleDragStart);
-                    eventBlock.addEventListener('dragend', handleDragEnd);
-                    
-                    eventsContainer.appendChild(eventBlock);
+                // Add drag and drop event listeners for horizontal swapping
+                eventsRow.addEventListener('dragover', handleRowDragOver);
+                eventsRow.addEventListener('drop', handleRowDrop);
+                eventsRow.addEventListener('dragleave', handleRowDragLeave);
+                
+                // Add events for this hour
+                const hourEvents = scheduleData.filter(event => {
+                    const eventHour = parseInt(event.time.split(':')[0]);
+                    return eventHour === hour;
+                });
+                
+                hourEvents.forEach(event => {
+                    const eventBlock = createEventBlock(event);
+                    eventsRow.appendChild(eventBlock);
                 });
                 
                 const addBtn = document.createElement('button');
                 addBtn.className = 'add-event-btn';
-                addBtn.textContent = '+ Add';
-                addBtn.onclick = () => addNewEvent(time);
-                eventsContainer.appendChild(addBtn);
+                addBtn.textContent = '+';
+                addBtn.onclick = () => addNewEvent(String(hour).padStart(2, '0') + ':00');
+                eventsRow.appendChild(addBtn);
                 
-                row.appendChild(timeLabel);
-                row.appendChild(eventsContainer);
-                container.appendChild(row);
-            });
+                eventsColumn.appendChild(eventsRow);
+            }
+        }
+
+        function createEventBlock(event) {
+            const category = categories.find(c => c.id === event.category);
+            const eventBlock = document.createElement('div');
+            eventBlock.className = 'event-block';
+            eventBlock.id = `event-${event.id}`;
+            eventBlock.draggable = true;
+            eventBlock.style.backgroundColor = category ? category.color : '#e3f2fd';
+            
+            eventBlock.innerHTML = `
+                <input type="text" class="event-content" value="${event.content}" 
+                       onchange="updateEventContent(${event.id}, this.value)">
+                <button class="delete-btn" onclick="deleteEvent(${event.id})">×</button>
+            `;
+            
+            eventBlock.addEventListener('dragstart', handleDragStart);
+            eventBlock.addEventListener('dragend', handleDragEnd);
+            
+            return eventBlock;
         }
 
         function handleDragStart(e) {
-            draggedElement = this;
-            this.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.target.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
         }
 
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-            e.currentTarget.classList.add('drag-over');
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            // Remove any remaining drag-over classes
+            document.querySelectorAll('.drag-over').forEach(el => {
+                el.classList.remove('drag-over');
+            });
         }
 
-        function handleDrop(e) {
+        // Handle dragging over event rows (horizontal movement)
+        function handleRowDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            
+            // Only add visual feedback if dragging an event
+            const draggedId = e.dataTransfer.getData('text/plain');
+            if (draggedId && draggedId.startsWith('event-')) {
+                e.currentTarget.classList.add('drag-over');
+            }
+        }
+
+        function handleRowDragLeave(e) {
+            // Only remove if we're actually leaving the row
+            if (!e.currentTarget.contains(e.relatedTarget)) {
+                e.currentTarget.classList.remove('drag-over');
+            }
+        }
+
+        function handleRowDrop(e) {
             e.preventDefault();
             e.currentTarget.classList.remove('drag-over');
             
-            if (draggedElement && e.currentTarget.classList.contains('events-container')) {
-                const newTime = e.currentTarget.parentElement.querySelector('.time-label').textContent;
-                const eventId = parseInt(draggedElement.id.split('-')[1]);
-                
-                updateEventTime(eventId, newTime);
-                createSchedule();
-            }
-        }
-
-        function handleDragEnd(e) {
-            this.classList.remove('dragging');
-            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-            draggedElement = null;
-        }
-
-        function updateEventTime(id, newTime) {
-            const event = scheduleData.find(e => e.id === id);
+            const draggedId = e.dataTransfer.getData('text/plain');
+            if (!draggedId || !draggedId.startsWith('event-')) return;
+            
+            const eventId = parseInt(draggedId.split('-')[1]);
+            const targetRow = e.currentTarget;
+            const newHour = parseInt(targetRow.dataset.hour);
+            const newMinute = parseInt(targetRow.dataset.minute || '0');
+            const newTime = String(newHour).padStart(2, '0') + ':' + String(newMinute).padStart(2, '0');
+            
+            // Find the event and update its time
+            const event = scheduleData.find(e => e.id === eventId);
             if (event) {
                 event.time = newTime;
+                
+                // If dropping within the same row, handle horizontal reordering
+                const draggedElement = document.getElementById(draggedId);
+                const dropTarget = e.target.closest('.event-block');
+                
+                if (dropTarget && dropTarget !== draggedElement && targetRow.contains(dropTarget)) {
+                    // Get the bounding rectangles to determine drop position
+                    const draggedRect = draggedElement.getBoundingClientRect();
+                    const targetRect = dropTarget.getBoundingClientRect();
+                    
+                    // Insert before or after based on horizontal position
+                    if (e.clientX < targetRect.left + targetRect.width / 2) {
+                        targetRow.insertBefore(draggedElement, dropTarget);
+                    } else {
+                        targetRow.insertBefore(draggedElement, dropTarget.nextSibling);
+                    }
+                    
+                    // Update time line visibility after horizontal move
+                    setTimeout(() => {
+                        updateTimeLineAfterChange();
+                    }, 50);
+                } else if (!targetRow.contains(draggedElement)) {
+                    // Moving to a different row - recreate the schedule
+                    createTimeSlots();
+                }
             }
         }
 
-        function updateEventContent(id, newContent) {
-            const event = scheduleData.find(e => e.id === id);
-            if (event) {
-                event.content = newContent;
+        // Calendar functions
+        function createMiniCalendar() {
+            const year = viewingMonth.getFullYear();
+            const month = viewingMonth.getMonth();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
+            
+            const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            let calendarHTML = '';
+            
+            daysOfWeek.forEach(day => {
+                calendarHTML += `<div class="calendar-day header">${day}</div>`;
+            });
+            
+            // Empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += `<div class="calendar-day other-month"></div>`;
+            }
+            
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const isToday = date.toDateString() === currentDate.toDateString();
+                const isSelected = date.toDateString() === selectedDate.toDateString();
+                
+                let classes = 'calendar-day';
+                if (isToday) classes += ' current';
+                if (isSelected && !isToday) classes += ' selected';
+                
+                calendarHTML += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">${day}</div>`;
+            }
+            
+            document.getElementById('calendarGrid').innerHTML = calendarHTML;
+        }
+
+        function selectDate(year, month, day) {
+            selectedDate = new Date(year, month, day);
+            createMiniCalendar();
+            updateTime();
+            createTimeSlots();
+        }
+
+        function previousMonth() {
+            viewingMonth.setMonth(viewingMonth.getMonth() - 1);
+            createMiniCalendar();
+        }
+
+        function nextMonth() {
+            viewingMonth.setMonth(viewingMonth.getMonth() + 1);
+            createMiniCalendar();
+        }
+
+        // Category functions
+        function createCategoryList() {
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = '';
+            
+            categories.forEach(category => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item';
+                categoryItem.innerHTML = `
+                    <div class="category-color" style="background-color: ${category.color}" 
+                         onclick="selectCategoryForColor('${category.id}')"></div>
+                    <input type="text" class="category-name" value="${category.name}" 
+                           onchange="updateCategoryName('${category.id}', this.value)">
+                    <button class="category-delete" onclick="deleteCategory('${category.id}')">×</button>
+                `;
+                categoryList.appendChild(categoryItem);
+            });
+        }
+
+        function addCategory() {
+            const newCategory = {
+                id: `category-${nextCategoryId++}`,
+                name: "New Category",
+                color: "#e3f2fd"
+            };
+            categories.push(newCategory);
+            createCategoryList();
+        }
+
+        function deleteCategory(categoryId) {
+            categories = categories.filter(c => c.id !== categoryId);
+            createCategoryList();
+            createTimeSlots(); // Refresh events
+        }
+
+        function updateCategoryName(categoryId, newName) {
+            const category = categories.find(c => c.id === categoryId);
+            if (category) {
+                category.name = newName;
             }
         }
 
-        function deleteEvent(id) {
-            scheduleData = scheduleData.filter(e => e.id !== id);
-            createSchedule();
+        function selectCategoryForColor(categoryId) {
+            selectedCategoryForColor = categoryId;
         }
 
+        function selectColor(color) {
+            if (selectedCategoryForColor) {
+                const category = categories.find(c => c.id === selectedCategoryForColor);
+                if (category) {
+                    category.color = color;
+                    createCategoryList();
+                    createTimeSlots(); // Refresh events with new colors
+                }
+                selectedCategoryForColor = null;
+            }
+        }
+
+        function updateTimeLineAfterChange() {
+            const now = new Date();
+            const totalMinutesInDay = 24 * 60;
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            
+            const eventsColumn = document.getElementById('eventsColumn');
+            if (eventsColumn) {
+                const columnHeight = eventsColumn.offsetHeight;
+                const linePosition = (currentMinutes / totalMinutesInDay) * columnHeight;
+                updateTimeLineVisibility(linePosition);
+            }
+        }
+
+        // Event functions
         function addNewEvent(time) {
             const newEvent = {
-                id: nextId++,
+                id: nextEventId++,
                 time: time,
-                content: "New Event"
+                content: "New Event",
+                category: categories[0]?.id || "personal"
             };
             scheduleData.push(newEvent);
-            createSchedule();
+            createTimeSlots();
+        }
+
+        function deleteEvent(eventId) {
+            scheduleData = scheduleData.filter(e => e.id !== eventId);
+            createTimeSlots();
+        }
+
+        function updateEventContent(eventId, newContent) {
+            const event = scheduleData.find(e => e.id === eventId);
+            if (event) {
+                event.content = newContent;
+                // Update time line visibility in case content change affects layout
+                setTimeout(() => {
+                    updateTimeLineAfterChange();
+                }, 50);
+            }
+        }
+
+        // API Integration functions
+        function syncGoogleCalendar() {
+            document.getElementById('syncStatus').textContent = 'Connecting to Google Calendar...';
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('syncStatus').textContent = 'Google Calendar connected ✓';
+            }, 2000);
+        }
+
+        function syncOutlook() {
+            document.getElementById('syncStatus').textContent = 'Connecting to Outlook...';
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('syncStatus').textContent = 'Outlook connected ✓';
+            }, 2000);
         }
 
         // Initialize
         createMiniCalendar();
-        createSchedule();
+        createCategoryList();
+        createTimeSlots();
         updateTime();
         setInterval(updateTime, 1000);
     </script>
