@@ -1,243 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Daily University Planner</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      height: 100vh;
-      background: #f4f4f9;
-      color: #333;
-    }
-    #sidebar {
-      width: 250px;
-      background: #2d2d39;
-      color: #fff;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-    #sidebar h2 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-    #sidebar label, #sidebar input, #sidebar button {
-      display: block;
-      margin-bottom: .5rem;
-      width: 100%;
-    }
-    #main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    #header {
-      padding: 1rem;
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: bold;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    #content {
-      flex: 1;
-      display: flex;
-      padding: 1rem;
-      gap: 1rem;
-    }
-    #calendar {
-      width: 200px;
-      background: #fff;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    #calendar table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    #calendar th, #calendar td {
-      padding: 5px;
-      cursor: pointer;
-    }
-    #calendar td.today {
-      background: #4cafef;
-      border-radius: 50%;
-      color: white;
-    }
-    #schedule {
-      flex: 1;
-      background: #fff;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      display: flex;
-    }
-    #schedule-list {
-      flex: 2;
-    }
-    .event {
-      padding: .5rem;
-      margin-bottom: .5rem;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #event-details {
-      flex: 1;
-      border-left: 1px solid #ddd;
-      padding-left: 1rem;
-    }
-    #event-details h3 {
-      margin-top: 0;
-    }
-    #event-details input, #event-details textarea {
-      width: 100%;
-      margin-bottom: .5rem;
-      padding: .5rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily University Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #37352f;
+            line-height: 1.5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .time-header {
+            flex: 1;
+        }
+
+        .time-small {
+            font-size: 14px;
+            color: #787774;
+            margin-bottom: 4px;
+            font-weight: 400;
+        }
+
+        .day-date {
+            font-size: 16px;
+            color: #37352f;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .current-time {
+            font-size: 48px;
+            font-weight: 600;
+            color: #37352f;
+            margin-bottom: 24px;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+        }
+
+        .mini-calendar {
+            background: #f7f6f3;
+            border-radius: 8px;
+            padding: 12px;
+            width: 200px;
+            margin-left: 20px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #37352f;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 4px 2px;
+            font-size: 12px;
+            color: #787774;
+        }
+
+        .calendar-day.header {
+            font-weight: 600;
+            color: #37352f;
+            font-size: 10px;
+        }
+
+        .calendar-day.current {
+            background: #2383e2;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .calendar-day.other-month {
+            color: #c5c5c5;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #e9e9e7;
+            border-bottom: 1px solid #e9e9e7;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-size: 14px;
+            color: #37352f;
+            font-weight: 500;
+        }
+
+        .progress-percent {
+            font-size: 14px;
+            color: #787774;
+            font-weight: 400;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #f1f1ef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #2383e2;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .schedule-section {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #37352f;
+            margin-bottom: 16px;
+        }
+
+        .schedule-grid {
+            position: relative;
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 500px;
+        }
+
+        .time-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            border-top: 2px dotted #d1d1d1;
+            z-index: 1;
+        }
+
+        .time-divider.am {
+            top: 25%;
+        }
+
+        .time-divider.pm {
+            top: 50%;
+        }
+
+        .time-divider::before {
+            content: attr(data-time);
+            position: absolute;
+            left: 10px;
+            top: -10px;
+            background: #fafafa;
+            padding: 0 8px;
+            font-size: 12px;
+            color: #787774;
+            font-weight: 500;
+        }
+
+        .time-progress-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ff4757;
+            z-index: 10;
+            transition: top 0.5s ease;
+            border-radius: 1px;
+        }
+
+        .time-progress-line::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: -2px;
+            width: 8px;
+            height: 6px;
+            background: #ff4757;
+            border-radius: 50%;
+        }
+
+        .time-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .time-label {
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+            font-size: 12px;
+            color: #787774;
+            font-weight: 500;
+            width: 50px;
+            flex-shrink: 0;
+            margin-right: 15px;
+            text-align: right;
+            padding-top: 4px;
+        }
+
+        .events-container {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .event-block {
+            background: #f7f6f3;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: move;
+            transition: all 0.15s ease;
+            position: relative;
+            min-width: 120px;
+            max-width: 250px;
+        }
+
+        .event-block:hover {
+            border-color: #e9e9e7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-block.dragging {
+            opacity: 0.7;
+            transform: rotate(2deg);
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .event-block.current {
+            background-color: #2383e2;
+            color: white;
+            border-color: #2383e2;
+        }
+
+        .event-content {
+            font-size: 14px;
+            color: #37352f;
+            font-weight: 500;
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+
+        .event-block.current .event-content {
+            color: white;
+        }
+
+        .event-content::placeholder {
+            color: #c5c5c5;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event-block:hover .delete-btn {
+            display: flex;
+        }
+
+        .add-event-btn {
+            background: none;
+            border: 2px dashed #c5c5c5;
+            color: #787774;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.15s ease;
+            min-width: 120px;
+        }
+
+        .add-event-btn:hover {
+            border-color: #2383e2;
+            color: #2383e2;
+        }
+
+        .drop-zone {
+            min-height: 30px;
+            border: 2px dashed transparent;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #2383e2;
+            background: rgba(35, 131, 226, 0.05);
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e9e9e7;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: #37352f;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #787774;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .header-section {
+                flex-direction: column;
+            }
+            
+            .mini-calendar {
+                margin-left: 0;
+                margin-top: 20px;
+                align-self: center;
+            }
+            
+            .current-time {
+                font-size: 40px;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .event-block {
+                min-width: 100px;
+                max-width: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="sidebar">
-    <h2>Email Calendar Sync</h2>
-    <label for="emailInput">Linked Email:</label>
-    <input type="email" id="emailInput" placeholder="example@email.com">
-    <button onclick="linkEmail()">Link Email</button>
-    <button onclick="unlinkEmail()">Unlink Email</button>
-    <div id="linkedEmail"></div>
-  </div>
-  <div id="main">
-    <div id="header">
-      <div id="bigClock"></div>
-    </div>
-    <div id="content">
-      <div id="calendar"></div>
-      <div id="schedule">
-        <div id="schedule-list">
-          <h2 id="schedule-title">Today's Schedule</h2>
-          <div id="events"></div>
-          <button onclick="addEvent()">+ Add Event</button>
+    <div class="container">
+        <div class="header-section">
+            <div class="time-header">
+                <div class="time-small" id="timeSmall">00:00</div>
+                <div class="day-date" id="dayDate">Sunday (01|01|25)</div>
+                <div class="current-time" id="currentTime">12:00:00</div>
+            </div>
+            <div class="mini-calendar" id="miniCalendar">
+                <!-- Calendar will be generated here -->
+            </div>
         </div>
-        <div id="event-details">
-          <h3>Event Details</h3>
-          <label>URL:</label>
-          <input type="url" id="eventUrl" placeholder="https://...">
-          <label>Notes:</label>
-          <textarea id="eventNotes" rows="6"></textarea>
-          <button onclick="saveEventDetails()">Save Details</button>
+
+        <div class="progress-section">
+            <div class="progress-info">
+                <div class="progress-label">Day Progress</div>
+                <div class="progress-percent" id="progressPercent">0%</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
         </div>
-      </div>
+
+        <div class="schedule-section">
+            <h2 class="section-title">Today's Schedule</h2>
+            <div class="schedule-grid" id="scheduleGrid">
+                <div class="time-divider am" data-time="12:00 PM"></div>
+                <div class="time-divider pm" data-time="12:00 AM"></div>
+                <div class="time-progress-line" id="timeProgressLine"></div>
+                <!-- Schedule rows will be populated here -->
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-item">
+                <div class="stat-value" id="hoursRemaining">12</div>
+                <div class="stat-label">Hours Remaining</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="minutesElapsed">720</div>
+                <div class="stat-label">Minutes Elapsed</div>
+            </div>
+        </div>
     </div>
-  </div>
-  <script>
-    const bigClock = document.getElementById('bigClock');
-    function updateTime() {
-      const now = new Date();
-      bigClock.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
 
-    let currentDate = new Date();
-    let eventsByDate = JSON.parse(localStorage.getItem('plannerEvents')) || {};
-    let selectedEventIndex = null;
+    <script>
+        let scheduleData = [
+            { id: 1, time: "08:00", content: "Morning Routine" },
+            { id: 2, time: "08:00", content: "Breakfast" },
+            { id: 3, time: "09:00", content: "Mathematics Lecture" },
+            { id: 4, time: "10:30", content: "Study Break" },
+            { id: 5, time: "11:00", content: "Computer Science Lab" },
+            { id: 6, time: "12:30", content: "Lunch Break" },
+            { id: 7, time: "12:30", content: "Drink Water" },
+            { id: 8, time: "14:00", content: "Physics Tutorial" },
+            { id: 9, time: "15:30", content: "Library Study" },
+            { id: 10, time: "17:00", content: "Gym" },
+            { id: 11, time: "18:30", content: "Dinner" },
+            { id: 12, time: "19:30", content: "Assignment Work" },
+            { id: 13, time: "21:00", content: "Free Time" },
+            { id: 14, time: "22:30", content: "Prepare for Tomorrow" }
+        ];
 
-    function renderCalendar(date) {
-      const calendarEl = document.getElementById('calendar');
-      const month = date.getMonth();
-      const year = date.getFullYear();
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month+1, 0).getDate();
+        let draggedElement = null;
+        let nextId = 15;
 
-      let html = `<h3>${date.toLocaleString('default', {month:'long'})} ${year}</h3>`;
-      html += '<table><tr>';
-      const days = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-      days.forEach(d=> html+=`<th>${d}</th>`);
-      html+='</tr><tr>';
-      for (let i=0;i<firstDay;i++) html+='<td></td>';
-      for (let d=1; d<=daysInMonth; d++) {
-        const cls = d===date.getDate() && month===new Date().getMonth() && year===new Date().getFullYear() ? 'today':'';
-        html+=`<td class="${cls}" onclick="selectDay(${year},${month},${d})">${d}</td>`;
-        if ((d+firstDay)%7===0) html+='</tr><tr>';
-      }
-      html+='</tr></table>';
-      calendarEl.innerHTML = html;
-    }
+        function createMiniCalendar() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const today = now.getDate();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            
+            const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+            
+            let calendarHTML = `<div class="calendar-header">${monthNames[month]} ${year}</div>`;
+            calendarHTML += '<div class="calendar-grid">';
+            
+            daysOfWeek.forEach(day => {
+                calendarHTML += `<div class="calendar-day header">${day}</div>`;
+            });
+            
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = day === today;
+                const classes = isToday ? 'calendar-day current' : 'calendar-day';
+                calendarHTML += `<div class="${classes}">${day}</div>`;
+            }
+            
+            const remainingCells = 42 - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingCells && remainingCells < 7; day++) {
+                calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
+            calendarHTML += '</div>';
+            document.getElementById('miniCalendar').innerHTML = calendarHTML;
+        }
 
-    function selectDay(year, month, day) {
-      currentDate = new Date(year, month, day);
-      renderCalendar(currentDate);
-      renderEvents();
-    }
+        function updateTime() {
+            const now = new Date();
+            
+            const timeString = now.toTimeString().slice(0, 5);
+            document.getElementById('timeSmall').textContent = timeString;
+            
+            const currentTimeString = now.toTimeString().slice(0, 8);
+            document.getElementById('currentTime').textContent = currentTimeString;
+            
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName = days[now.getDay()];
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).slice(-2);
+            const dateString = `${dayName} (${day}|${month}|${year})`;
+            document.getElementById('dayDate').textContent = dateString;
+            
+            // Top progress bar
+            const totalMinutesInDay = 24 * 60;
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const progressPercentage = (currentMinutes / totalMinutesInDay) * 100;
+            
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+            document.getElementById('progressPercent').textContent = `${Math.round(progressPercentage)}%`;
+            
+            // Vertical time progress line
+            const scheduleGrid = document.getElementById('scheduleGrid');
+            const gridHeight = scheduleGrid.offsetHeight - 40; // Subtract padding
+            const progressPosition = (currentMinutes / totalMinutesInDay) * gridHeight + 20; // Add top padding
+            document.getElementById('timeProgressLine').style.top = `${progressPosition}px`;
+            
+            const hoursRemaining = Math.ceil((totalMinutesInDay - currentMinutes) / 60);
+            document.getElementById('hoursRemaining').textContent = hoursRemaining;
+            document.getElementById('minutesElapsed').textContent = currentMinutes;
+            
+            updateScheduleHighlight(now);
+        }
 
-    function renderEvents() {
-      const key = currentDate.toDateString();
-      const list = eventsByDate[key] || [];
-      const container = document.getElementById('events');
-      container.innerHTML = '';
-      list.forEach((event, idx)=>{
-        const div = document.createElement('div');
-        div.className = 'event';
-        div.textContent = event.title;
-        div.onclick = ()=>selectEvent(idx);
-        container.appendChild(div);
-      });
-      document.getElementById('schedule-title').textContent = currentDate.toDateString()+" Schedule";
-    }
+        function updateScheduleHighlight(now) {
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTimeInMinutes = currentHour * 60 + currentMinute;
+            
+            document.querySelectorAll('.event-block').forEach(block => {
+                block.classList.remove('current');
+            });
+            
+            scheduleData.forEach(item => {
+                const [blockHour, blockMinute] = item.time.split(':').map(Number);
+                const blockTimeInMinutes = blockHour * 60 + blockMinute;
+                
+                if (Math.abs(currentTimeInMinutes - blockTimeInMinutes) < 30) {
+                    const block = document.getElementById(`event-${item.id}`);
+                    if (block) block.classList.add('current');
+                }
+            });
+        }
 
-    function addEvent() {
-      const key = currentDate.toDateString();
-      if(!eventsByDate[key]) eventsByDate[key]=[];
-      eventsByDate[key].push({title:'New Event', url:'', notes:''});
-      saveEvents();
-      renderEvents();
-    }
+        function groupEventsByTime(events) {
+            const grouped = {};
+            events.forEach(event => {
+                if (!grouped[event.time]) {
+                    grouped[event.time] = [];
+                }
+                grouped[event.time].push(event);
+            });
+            return grouped;
+        }
 
-    function selectEvent(idx) {
-      selectedEventIndex = idx;
-      const key = currentDate.toDateString();
-      const ev = eventsByDate[key][idx];
-      document.getElementById('eventUrl').value = ev.url || '';
-      document.getElementById('eventNotes').value = ev.notes || '';
-    }
+        function createSchedule() {
+            const container = document.getElementById('scheduleGrid');
+            const existingContent = container.innerHTML;
+            container.innerHTML = existingContent.split('<!-- Schedule rows')[0] + '<!-- Schedule rows will be populated here -->';
+            
+            const groupedEvents = groupEventsByTime(scheduleData);
+            const sortedTimes = Object.keys(groupedEvents).sort();
+            
+            sortedTimes.forEach(time => {
+                const events = groupedEvents[time];
+                const row = document.createElement('div');
+                row.className = 'time-row';
+                
+                const timeLabel = document.createElement('div');
+                timeLabel.className = 'time-label';
+                timeLabel.textContent = time;
+                
+                const eventsContainer = document.createElement('div');
+                eventsContainer.className = 'events-container';
+                eventsContainer.addEventListener('dragover', handleDragOver);
+                eventsContainer.addEventListener('drop', handleDrop);
+                
+                events.forEach(event => {
+                    const eventBlock = document.createElement('div');
+                    eventBlock.className = 'event-block';
+                    eventBlock.id = `event-${event.id}`;
+                    eventBlock.draggable = true;
+                    eventBlock.innerHTML = `
+                        <input type="text" class="event-content" value="${event.content}" 
+                               placeholder="Enter event..."
+                               onchange="updateEventContent(${event.id}, this.value)">
+                        <button class="delete-btn" onclick="deleteEvent(${event.id})">×</button>
+                    `;
+                    
+                    eventBlock.addEventListener('dragstart', handleDragStart);
+                    eventBlock.addEventListener('dragend', handleDragEnd);
+                    
+                    eventsContainer.appendChild(eventBlock);
+                });
+                
+                const addBtn = document.createElement('button');
+                addBtn.className = 'add-event-btn';
+                addBtn.textContent = '+ Add';
+                addBtn.onclick = () => addNewEvent(time);
+                eventsContainer.appendChild(addBtn);
+                
+                row.appendChild(timeLabel);
+                row.appendChild(eventsContainer);
+                container.appendChild(row);
+            });
+        }
 
-    function saveEventDetails() {
-      if(selectedEventIndex===null) return;
-      const key = currentDate.toDateString();
-      const ev = eventsByDate[key][selectedEventIndex];
-      ev.url = document.getElementById('eventUrl').value;
-      ev.notes = document.getElementById('eventNotes').value;
-      saveEvents();
-    }
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
 
-    function saveEvents() {
-      localStorage.setItem('plannerEvents', JSON.stringify(eventsByDate));
-    }
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            e.currentTarget.classList.add('drag-over');
+        }
 
-    function linkEmail() {
-      const email = document.getElementById('emailInput').value;
-      localStorage.setItem('linkedEmail', email);
-      document.getElementById('linkedEmail').textContent = 'Linked: '+email;
-    }
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            if (draggedElement && e.currentTarget.classList.contains('events-container')) {
+                const newTime = e.currentTarget.parentElement.querySelector('.time-label').textContent;
+                const eventId = parseInt(draggedElement.id.split('-')[1]);
+                
+                updateEventTime(eventId, newTime);
+                createSchedule();
+            }
+        }
 
-    function unlinkEmail() {
-      localStorage.removeItem('linkedEmail');
-      document.getElementById('linkedEmail').textContent = '';
-    }
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+            draggedElement = null;
+        }
 
-    if(localStorage.getItem('linkedEmail')) {
-      document.getElementById('linkedEmail').textContent = 'Linked: '+localStorage.getItem('linkedEmail');
-    }
+        function updateEventTime(id, newTime) {
+            const event = scheduleData.find(e => e.id === id);
+            if (event) {
+                event.time = newTime;
+            }
+        }
 
-    renderCalendar(currentDate);
-    renderEvents();
-  </script>
+        function updateEventContent(id, newContent) {
+            const event = scheduleData.find(e => e.id === id);
+            if (event) {
+                event.content = newContent;
+            }
+        }
+
+        function deleteEvent(id) {
+            scheduleData = scheduleData.filter(e => e.id !== id);
+            createSchedule();
+        }
+
+        function addNewEvent(time) {
+            const newEvent = {
+                id: nextId++,
+                time: time,
+                content: "New Event"
+            };
+            scheduleData.push(newEvent);
+            createSchedule();
+        }
+
+        // Initialize
+        createMiniCalendar();
+        createSchedule();
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
