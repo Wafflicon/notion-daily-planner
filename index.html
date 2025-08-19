@@ -17,6 +17,7 @@
             color: #37352f;
             line-height: 1.5;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .main-container {
@@ -25,21 +26,20 @@
             display: grid;
             grid-template-columns: 1fr 320px;
             gap: 30px;
-            min-height: 100vh;
-            padding: 0 20px;
+            min-height: calc(100vh - 40px);
         }
 
         .left-column {
             display: flex;
             flex-direction: column;
-            min-width: 0; /* Prevents overflow */
+            min-width: 0;
         }
 
         .right-column {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            min-width: 300px;
+            min-width: 280px;
             max-width: 320px;
         }
 
@@ -57,10 +57,10 @@
         }
 
         .time-display {
-            font-size: 50px;
+            font-size: 48px;
             font-weight: 900;
             color: #37352f;
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
             margin-bottom: 20px;
             letter-spacing: -1px;
         }
@@ -74,7 +74,7 @@
         }
 
         .theme-toggle {
-            background: none;
+            background: #ffffff;
             border: 2px solid #c5c5c5;
             border-radius: 8px;
             width: 36px;
@@ -89,19 +89,12 @@
 
         .theme-toggle:hover {
             border-color: #787774;
+            transform: scale(1.05);
         }
 
         .brightness-icon {
-            width: 18px;
-            height: 18px;
-            stroke: #787774;
-            fill: none;
-            stroke-width: 1.5;
-            transition: all 0.15s ease;
-        }
-
-        .theme-toggle:hover .brightness-icon {
-            stroke: #37352f;
+            width: 16px;
+            height: 16px;
         }
 
         .progress-container {
@@ -114,13 +107,11 @@
         }
 
         .progress-percent {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: #37352f;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            height: 25px;
+            min-width: 45px;
+            text-align: right;
         }
 
         .progress-passed {
@@ -142,18 +133,13 @@
             border-radius: 2px;
             transition: left 0.5s ease;
             box-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
-        }
-
-        .progress-percent {
-            text-align: right;
-            font-size: 18px;
-            font-weight: bold;
-            color: #37352f;
+            z-index: 2;
         }
 
         /* Schedule Section */
         .schedule-section {
             flex: 1;
+            overflow: hidden;
         }
 
         .section-title {
@@ -169,8 +155,10 @@
             background: #fafafa;
             border-radius: 12px;
             padding: 20px;
-            min-height: 500px;
+            height: 600px;
             position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .time-column {
@@ -178,38 +166,18 @@
             flex-direction: column;
             border-right: 1px solid #e9e9e7;
             padding-right: 15px;
-            position: relative;
-        }
-
-        .am-pm-label {
-            position: absolute;
-            right: -8px;
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
-            font-size: 10px;
-            color: #c5c5c5;
-            font-weight: 600;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            z-index: 5;
-        }
-
-        .am-label {
-            top: 200px;
-        }
-
-        .pm-label {
-            top: 520px;
         }
 
         .time-slot {
-            height: 40px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
             font-size: 12px;
-            color: #a0a0a0;
-            font-weight: 400;
+            color: #787774;
+            font-weight: 500;
+            position: relative;
         }
 
         .time-slot.hour {
@@ -217,14 +185,9 @@
             font-weight: 600;
         }
 
-        .time-slot.noon-midnight {
-            color: #2383e2;
-            font-weight: 700;
-        }
-
-        .time-slot.pm-marker {
-            border-top: 1px dotted #c5c5c5;
-            position: relative;
+        .time-slot.noon {
+            border-top: 1px dotted #2383e2;
+            padding-top: 2px;
         }
 
         .events-column {
@@ -234,24 +197,25 @@
 
         .time-progress-line {
             position: absolute;
-            left: 0;
+            left: -15px;
             right: 0;
             height: 2px;
-            background: rgba(255, 71, 87, 0.7);
+            background: linear-gradient(90deg, rgba(255, 71, 87, 0.8), rgba(255, 71, 87, 0.4));
             z-index: 10;
             transition: top 0.5s ease;
             border-radius: 1px;
+            pointer-events: none;
         }
 
         .events-row {
-            height: 40px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
             position: relative;
-            min-height: 40px;
-            padding: 4px 0;
+            padding: 5px 0;
+            transition: background 0.2s ease;
         }
 
         .events-row.drag-over {
@@ -263,25 +227,28 @@
             background: #e3f2fd;
             border: 1px solid #bbdefb;
             border-radius: 8px;
-            padding: 4px 10px;
+            padding: 6px 12px;
             font-size: 12px;
             font-weight: 500;
             cursor: move;
             transition: all 0.15s ease;
             position: relative;
-            min-width: 80px;
-            max-width: 150px;
+            min-width: 100px;
+            max-width: 200px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .event-block:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             transform: translateY(-1px);
+            z-index: 5;
         }
 
         .event-block.dragging {
-            opacity: 0.7;
+            opacity: 0.5;
             z-index: 1000;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .event-content {
@@ -291,7 +258,8 @@
             font-size: 12px;
             font-weight: 500;
             width: 100%;
-            color: inherit;
+            color: #37352f;
+            cursor: text;
         }
 
         .delete-btn {
@@ -302,13 +270,14 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
+            z-index: 10;
         }
 
         .event-block:hover .delete-btn {
@@ -316,28 +285,29 @@
         }
 
         .add-event-btn {
-            background: none;
+            background: transparent;
             border: 1px dashed #c5c5c5;
             color: #787774;
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 11px;
+            transition: all 0.15s ease;
         }
 
         .add-event-btn:hover {
             border-color: #2383e2;
             color: #2383e2;
+            background: rgba(35, 131, 226, 0.05);
         }
 
-        /* Right Column - Calendar Section */
-        .email-calendar-section {
+        /* Right Column Sections */
+        .calendar-section, .category-section {
             background: #f7f6f3;
             border-radius: 12px;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            min-height: 350px;
         }
 
         .section-header {
@@ -345,12 +315,15 @@
             font-weight: 600;
             color: #37352f;
             margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .calendar-sync-btn, .email-sync-btn {
+        .sync-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .sync-btn {
             background: #2383e2;
             color: white;
             border: none;
@@ -358,28 +331,28 @@
             padding: 6px 12px;
             font-size: 12px;
             cursor: pointer;
-            margin-bottom: 8px;
+            flex: 1;
+            transition: all 0.15s ease;
         }
 
-        .calendar-sync-btn:hover, .email-sync-btn:hover {
+        .sync-btn:hover {
             background: #1e6bb8;
+            transform: translateY(-1px);
         }
 
         .sync-status {
             font-size: 11px;
             color: #787774;
             margin-bottom: 12px;
+            font-style: italic;
         }
 
-        .mini-calendar {
-            flex: 1;
-        }
-
+        /* Mini Calendar */
         .calendar-header {
             text-align: center;
             font-weight: 600;
             font-size: 14px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #37352f;
             display: flex;
             justify-content: space-between;
@@ -389,14 +362,16 @@
         .nav-btn {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             color: #787774;
-            padding: 4px;
+            padding: 4px 8px;
+            transition: all 0.15s ease;
         }
 
         .nav-btn:hover {
             color: #37352f;
+            transform: scale(1.2);
         }
 
         .calendar-grid {
@@ -440,21 +415,15 @@
 
         .calendar-day:hover:not(.header):not(.other-month) {
             background: #e3f2fd;
+            transform: scale(1.1);
         }
 
-        /* Right Column - Category Section */
-        .category-section {
-            background: #f7f6f3;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            min-height: 300px;
-        }
-
+        /* Category Section */
         .category-list {
             flex: 1;
             margin-bottom: 12px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .category-item {
@@ -472,10 +441,22 @@
         }
 
         .category-color {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 4px;
             cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.15s ease;
+        }
+
+        .category-color:hover {
+            border-color: #37352f;
+            transform: scale(1.1);
+        }
+
+        .category-color.selected {
+            border-color: #2383e2;
+            box-shadow: 0 0 0 2px rgba(35, 131, 226, 0.2);
         }
 
         .category-name {
@@ -485,6 +466,12 @@
             outline: none;
             font-size: 12px;
             color: #37352f;
+            padding: 2px 4px;
+        }
+
+        .category-name:focus {
+            background: white;
+            border-radius: 4px;
         }
 
         .category-delete {
@@ -492,9 +479,10 @@
             border: none;
             color: #ff4757;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             opacity: 0;
             transition: opacity 0.15s ease;
+            padding: 2px 4px;
         }
 
         .category-item:hover .category-delete {
@@ -502,77 +490,58 @@
         }
 
         .add-category-btn {
-            background: none;
+            background: transparent;
             border: 1px dashed #c5c5c5;
             color: #787774;
             padding: 8px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
-            margin-bottom: 12px;
+            transition: all 0.15s ease;
         }
 
         .add-category-btn:hover {
             border-color: #2383e2;
             color: #2383e2;
+            background: rgba(35, 131, 226, 0.05);
         }
 
         .color-palette {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(8, 1fr);
             gap: 4px;
+            padding: 8px 0;
         }
 
         .color-option {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 4px;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: border-color 0.15s ease;
+            transition: all 0.15s ease;
         }
 
         .color-option:hover {
             border-color: #37352f;
+            transform: scale(1.2);
         }
 
-        /* Color Palette */
-        .color-option:nth-child(1) { background: #fce4ec; }
-        .color-option:nth-child(2) { background: #f3e5f5; }
-        .color-option:nth-child(3) { background: #e8eaf6; }
-        .color-option:nth-child(4) { background: #e3f2fd; }
-        .color-option:nth-child(5) { background: #f8bbd9; }
-        .color-option:nth-child(6) { background: #e1bee7; }
-        .color-option:nth-child(7) { background: #c5cae9; }
-        .color-option:nth-child(8) { background: #bbdefb; }
-        .color-option:nth-child(9) { background: #f48fb1; }
-        .color-option:nth-child(10) { background: #ce93d8; }
-        .color-option:nth-child(11) { background: #9fa8da; }
-        .color-option:nth-child(12) { background: #90caf9; }
-        .color-option:nth-child(13) { background: #f06292; }
-        .color-option:nth-child(14) { background: #ba68c8; }
-        .color-option:nth-child(15) { background: #7986cb; }
-        .color-option:nth-child(16) { background: #64b5f6; }
-
-        /* Dark Mode Styles */
+        /* Dark Mode */
         body.dark-mode {
             background: #1a1a1a;
             color: #e4e4e4;
         }
 
-        .dark-mode .main-container {
-            color: #e4e4e4;
-        }
-
         .dark-mode .date-display,
         .dark-mode .time-display,
-        .dark-mode .section-title {
+        .dark-mode .section-title,
+        .dark-mode .section-header {
             color: #e4e4e4;
         }
 
         .dark-mode .schedule-grid {
             background: #2d2d2d;
-            border: 1px solid #404040;
         }
 
         .dark-mode .time-column {
@@ -580,25 +549,16 @@
         }
 
         .dark-mode .time-slot {
-            color: #666;
+            color: #999;
         }
 
         .dark-mode .time-slot.hour {
-            color: #a0a0a0;
+            color: #c0c0c0;
         }
 
-        .dark-mode .time-slot.noon-midnight {
-            color: #64b5f6;
-        }
-
-        .dark-mode .email-calendar-section,
+        .dark-mode .calendar-section,
         .dark-mode .category-section {
             background: #2d2d2d;
-            border: 1px solid #404040;
-        }
-
-        .dark-mode .section-header {
-            color: #e4e4e4;
         }
 
         .dark-mode .calendar-day {
@@ -613,19 +573,12 @@
             background: #404040;
         }
 
-        .dark-mode .category-item:hover {
-            background: rgba(64, 64, 64, 0.5);
-        }
-
         .dark-mode .category-name {
             color: #e4e4e4;
         }
 
-        .dark-mode .event-content {
-            color: #37352f !important;
-        }
-
         .dark-mode .theme-toggle {
+            background: #2d2d2d;
             border-color: #606060;
         }
 
@@ -633,43 +586,82 @@
             border-color: #a0a0a0;
         }
 
-        .dark-mode .brightness-icon {
-            stroke: #a0a0a0;
-            fill: #a0a0a0;
-        }
-
-        .dark-mode .theme-toggle:hover .brightness-icon {
-            stroke: #e4e4e4;
-            fill: #e4e4e4;
-        }
-
-        .dark-mode .am-pm-label {
-            color: #606060;
-        }
-
         .dark-mode .progress-percent {
             color: #e4e4e4;
         }
+
+        .dark-mode .add-event-btn,
+        .dark-mode .add-category-btn {
+            border-color: #606060;
+            color: #a0a0a0;
+        }
+
+        .dark-mode .add-event-btn:hover,
+        .dark-mode .add-category-btn:hover {
+            border-color: #2383e2;
+            color: #2383e2;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
             .main-container {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
             
             .right-column {
+                display: grid;
                 grid-template-columns: 1fr 1fr;
-                grid-template-rows: 1fr;
+                gap: 20px;
+                max-width: 100%;
             }
         }
 
         @media (max-width: 768px) {
+            .time-display {
+                font-size: 36px;
+            }
+            
             .right-column {
                 grid-template-columns: 1fr;
-                grid-template-rows: auto auto;
             }
             
             .schedule-grid {
                 grid-template-columns: 50px 1fr;
+                padding: 15px;
             }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .dark-mode ::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        .dark-mode ::-webkit-scrollbar-thumb {
+            background: #606060;
+        }
+
+        .dark-mode ::-webkit-scrollbar-thumb:hover {
+            background: #808080;
         }
     </style>
 </head>
@@ -677,112 +669,87 @@
     <div class="main-container">
         <div class="left-column">
             <div class="header-section">
-                <div class="date-display" id="dateDisplay">Sunday, August 19th 2025</div>
-                <div class="time-display" id="timeDisplay">12:00:00</div>
+                <div class="date-display" id="dateDisplay">Loading...</div>
+                <div class="time-display" id="timeDisplay">00:00:00</div>
             </div>
 
             <div class="progress-section">
-                <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
-                    <svg class="brightness-icon" viewBox="0 0 24 24" id="brightnessIcon">
-                        <!-- Light mode icon (outline) -->
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="m12 2v2"/>
-                        <path d="m12 20v2"/>
-                        <path d="m4.93 4.93 1.41 1.41"/>
-                        <path d="m17.66 17.66 1.41 1.41"/>
-                        <path d="M2 12h2"/>
-                        <path d="M20 12h2"/>
-                        <path d="m6.34 17.66-1.41 1.41"/>
-                        <path d="m19.07 4.93-1.41 1.41"/>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <svg class="brightness-icon" id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                     </svg>
                 </button>
                 <div class="progress-container">
                     <div class="progress-passed" id="progressPassed"></div>
                     <div class="time-indicator" id="timeIndicator"></div>
                 </div>
-                <div class="progress-percent" id="progressPercent">50%</div>
+                <div class="progress-percent" id="progressPercent">0%</div>
             </div>
 
             <div class="schedule-section">
                 <h2 class="section-title">Today's Schedule</h2>
                 <div class="schedule-grid">
-                    <div class="time-column" id="timeColumn">
-                        <!-- Time slots will be generated here -->
-                    </div>
+                    <div class="time-column" id="timeColumn"></div>
                     <div class="events-column" id="eventsColumn">
                         <div class="time-progress-line" id="timeProgressLine"></div>
-                        <!-- Event rows will be generated here -->
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="right-column">
-            <div class="email-calendar-section">
-                <div class="section-header">
-                    Calendar Sync
+            <div class="calendar-section">
+                <div class="section-header">Calendar</div>
+                <div class="sync-buttons">
+                    <button class="sync-btn" onclick="syncGoogleCalendar()">📅 Google</button>
+                    <button class="sync-btn" onclick="syncOutlook()">📧 Outlook</button>
                 </div>
-                <button class="calendar-sync-btn" onclick="syncGoogleCalendar()">🗓️ Sync Google Calendar</button>
-                <button class="email-sync-btn" onclick="syncOutlook()">📧 Sync Outlook</button>
                 <div class="sync-status" id="syncStatus">Not connected</div>
                 
                 <div class="mini-calendar">
                     <div class="calendar-header">
-                        <button class="nav-btn" onclick="previousMonth()">&lt;</button>
-                        <span id="calendarMonth">August 2025</span>
-                        <button class="nav-btn" onclick="nextMonth()">&gt;</button>
+                        <button class="nav-btn" onclick="previousMonth()">‹</button>
+                        <span id="calendarMonth">Loading...</span>
+                        <button class="nav-btn" onclick="nextMonth()">›</button>
                     </div>
-                    <div class="calendar-grid" id="calendarGrid">
-                        <!-- Calendar will be generated here -->
-                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
             </div>
 
             <div class="category-section">
-                <div class="section-header">
-                    Event Categories
-                </div>
-                <div class="category-list" id="categoryList">
-                    <!-- Categories will be generated here -->
-                </div>
+                <div class="section-header">Event Categories</div>
+                <div class="category-list" id="categoryList"></div>
                 <button class="add-category-btn" onclick="addCategory()">+ Add Category</button>
-                <div class="color-palette">
-                    <!-- Color options 1-16 -->
-                    <div class="color-option" onclick="selectColor('#fce4ec')"></div>
-                    <div class="color-option" onclick="selectColor('#f3e5f5')"></div>
-                    <div class="color-option" onclick="selectColor('#e8eaf6')"></div>
-                    <div class="color-option" onclick="selectColor('#e3f2fd')"></div>
-                    <div class="color-option" onclick="selectColor('#f8bbd9')"></div>
-                    <div class="color-option" onclick="selectColor('#e1bee7')"></div>
-                    <div class="color-option" onclick="selectColor('#c5cae9')"></div>
-                    <div class="color-option" onclick="selectColor('#bbdefb')"></div>
-                    <div class="color-option" onclick="selectColor('#f48fb1')"></div>
-                    <div class="color-option" onclick="selectColor('#ce93d8')"></div>
-                    <div class="color-option" onclick="selectColor('#9fa8da')"></div>
-                    <div class="color-option" onclick="selectColor('#90caf9')"></div>
-                    <div class="color-option" onclick="selectColor('#f06292')"></div>
-                    <div class="color-option" onclick="selectColor('#ba68c8')"></div>
-                    <div class="color-option" onclick="selectColor('#7986cb')"></div>
-                    <div class="color-option" onclick="selectColor('#64b5f6')"></div>
-                </div>
+                <div class="color-palette" id="colorPalette"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // State Management
         let currentDate = new Date();
         let selectedDate = new Date();
         let viewingMonth = new Date();
         let selectedCategoryForColor = null;
+        let draggedElement = null;
+        let isDarkMode = false;
 
+        // Default Data
         let scheduleData = [
             { id: 1, time: "08:00", content: "Morning Routine", category: "personal" },
             { id: 2, time: "09:00", content: "Mathematics Lecture", category: "study" },
-            { id: 3, time: "12:30", content: "Lunch", category: "food" },
-            { id: 4, time: "12:30", content: "Drink Water", category: "health" },
-            { id: 5, time: "14:00", content: "Physics Tutorial", category: "study" },
-            { id: 6, time: "17:00", content: "Gym", category: "fitness" },
-            { id: 7, time: "19:30", content: "Assignment Work", category: "study" }
+            { id: 3, time: "12:30", content: "Lunch Break", category: "food" },
+            { id: 4, time: "14:00", content: "Physics Tutorial", category: "study" },
+            { id: 5, time: "17:00", content: "Gym Session", category: "fitness" },
+            { id: 6, time: "19:30", content: "Assignment Work", category: "study" }
         ];
 
         let categories = [
@@ -793,128 +760,114 @@
             { id: "fitness", name: "Fitness", color: "#90caf9" }
         ];
 
-        let nextEventId = 8;
-        let nextCategoryId = 6;
-        let isDarkMode = false;
+        const colorOptions = [
+            "#fce4ec", "#f3e5f5", "#e8eaf6", "#e3f2fd",
+            "#f8bbd9", "#e1bee7", "#c5cae9", "#bbdefb",
+            "#f48fb1", "#ce93d8", "#9fa8da", "#90caf9",
+            "#f06292", "#ba68c8", "#7986cb", "#64b5f6"
+        ];
 
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            const body = document.body;
-            const brightnessIcon = document.getElementById('brightnessIcon');
-            
-            if (isDarkMode) {
-                body.classList.add('dark-mode');
-                // Dark mode icon (filled)
-                brightnessIcon.innerHTML = `
-                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
-                    <path d="m12 2v2" fill="currentColor"/>
-                    <path d="m12 20v2" fill="currentColor"/>
-                    <path d="m4.93 4.93 1.41 1.41" fill="currentColor"/>
-                    <path d="m17.66 17.66 1.41 1.41" fill="currentColor"/>
-                    <path d="M2 12h2" fill="currentColor"/>
-                    <path d="M20 12h2" fill="currentColor"/>
-                    <path d="m6.34 17.66-1.41 1.41" fill="currentColor"/>
-                    <path d="m19.07 4.93-1.41 1.41" fill="currentColor"/>
-                `;
-                brightnessIcon.style.fill = 'currentColor';
-                brightnessIcon.style.stroke = 'none';
-            } else {
-                body.classList.remove('dark-mode');
-                // Light mode icon (outline)
-                brightnessIcon.innerHTML = `
-                    <circle cx="12" cy="12" r="4"/>
-                    <path d="m12 2v2"/>
-                    <path d="m12 20v2"/>
-                    <path d="m4.93 4.93 1.41 1.41"/>
-                    <path d="m17.66 17.66 1.41 1.41"/>
-                    <path d="M2 12h2"/>
-                    <path d="M20 12h2"/>
-                    <path d="m6.34 17.66-1.41 1.41"/>
-                    <path d="m19.07 4.93-1.41 1.41"/>
-                `;
-                brightnessIcon.style.fill = 'none';
-                brightnessIcon.style.stroke = 'currentColor';
-                brightnessIcon.style.strokeWidth = '1.5';
+        let nextEventId = 7;
+        let nextCategoryId = 6;
+
+        // Data Persistence
+        function saveData() {
+            try {
+                const data = {
+                    scheduleData,
+                    categories,
+                    nextEventId,
+                    nextCategoryId,
+                    isDarkMode,
+                    selectedDate: selectedDate.toISOString()
+                };
+                sessionStorage.setItem('plannerData', JSON.stringify(data));
+            } catch (e) {
+                console.log('Storage not available');
             }
         }
 
+        function loadData() {
+            try {
+                const saved = sessionStorage.getItem('plannerData');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    scheduleData = data.scheduleData || scheduleData;
+                    categories = data.categories || categories;
+                    nextEventId = data.nextEventId || nextEventId;
+                    nextCategoryId = data.nextCategoryId || nextCategoryId;
+                    isDarkMode = data.isDarkMode || false;
+                    if (data.selectedDate) {
+                        selectedDate = new Date(data.selectedDate);
+                        viewingMonth = new Date(data.selectedDate);
+                    }
+                }
+            } catch (e) {
+                console.log('Could not load saved data');
+            }
+        }
+
+        // Theme Management
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            
+            const icon = document.getElementById('themeIcon');
+            if (isDarkMode) {
+                icon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                `;
+            } else {
+                icon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                `;
+            }
+            saveData();
+        }
+
+        // Time and Date Functions
         function updateTime() {
             const now = new Date();
             
             // Update time display
-            const timeString = now.toTimeString().slice(0, 8);
-            document.getElementById('timeDisplay').textContent = timeString;
+            document.getElementById('timeDisplay').textContent = now.toTimeString().slice(0, 8);
             
             // Update date display
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                           'July', 'August', 'September', 'October', 'November', 'December'];
-            const dayName = days[selectedDate.getDay()];
-            const monthName = months[selectedDate.getMonth()];
-            const day = selectedDate.getDate();
-            const year = selectedDate.getFullYear();
-            
-            // Format: "Sunday, August 19th 2025"
-            const dayWithSuffix = day + (day % 10 === 1 && day !== 11 ? 'st' : 
-                                        day % 10 === 2 && day !== 12 ? 'nd' : 
-                                        day % 10 === 3 && day !== 13 ? 'rd' : 'th');
-            const dateString = `${dayName}, ${monthName} ${dayWithSuffix} ${year}`;
-            document.getElementById('dateDisplay').textContent = dateString;
-            
-            // Progress bar calculations
-            const totalMinutesInDay = 24 * 60;
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            const progressPercentage = (currentMinutes / totalMinutesInDay) * 100;
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplay').textContent = selectedDate.toLocaleDateString('en-US', options);
             
             // Update progress bar
-            document.getElementById('progressPassed').style.width = `${progressPercentage}%`;
-            document.getElementById('timeIndicator').style.left = `${progressPercentage}%`;
-            document.getElementById('progressPercent').textContent = `${Math.round(progressPercentage)}%`;
+            const totalMinutes = 24 * 60;
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const percentage = (currentMinutes / totalMinutes) * 100;
             
-            // Update vertical progress line
+            document.getElementById('progressPassed').style.width = `${percentage}%`;
+            document.getElementById('timeIndicator').style.left = `${percentage}%`;
+            document.getElementById('progressPercent').textContent = `${Math.round(percentage)}%`;
+            
+            // Update time progress line in schedule
+            updateTimeProgressLine(percentage);
+        }
+
+        function updateTimeProgressLine(percentage) {
             const eventsColumn = document.getElementById('eventsColumn');
-            if (eventsColumn) {
-                const columnHeight = eventsColumn.offsetHeight;
-                const linePosition = (currentMinutes / totalMinutesInDay) * columnHeight;
-                const progressLine = document.getElementById('timeProgressLine');
-                progressLine.style.top = `${linePosition}px`;
-                
-                // Check which events the line is passing through
-                updateTimeLineVisibility(linePosition);
-            }
-        }
-
-        function updateTimeLineVisibility(linePosition) {
-            const eventBlocks = document.querySelectorAll('.event-block');
             const progressLine = document.getElementById('timeProgressLine');
-            let isPassingThroughEvent = false;
-            
-            eventBlocks.forEach(block => {
-                const blockRect = block.getBoundingClientRect();
-                const eventsColumn = document.getElementById('eventsColumn');
-                const columnRect = eventsColumn.getBoundingClientRect();
-                
-                // Calculate block position relative to events column
-                const blockTop = blockRect.top - columnRect.top;
-                const blockBottom = blockTop + blockRect.height;
-                
-                // Check if the time line passes through this event (with some tolerance)
-                if (linePosition >= blockTop - 5 && linePosition <= blockBottom + 5) {
-                    block.classList.add('time-line-passing');
-                    isPassingThroughEvent = true;
-                } else {
-                    block.classList.remove('time-line-passing');
-                }
-            });
-            
-            // Update the main progress line opacity
-            if (isPassingThroughEvent) {
-                progressLine.classList.add('faded');
-            } else {
-                progressLine.classList.remove('faded');
+            if (eventsColumn && progressLine) {
+                const columnHeight = eventsColumn.scrollHeight;
+                const linePosition = (percentage / 100) * columnHeight;
+                progressLine.style.top = `${linePosition}px`;
             }
         }
 
+        // Schedule Functions
         function createTimeSlots() {
             const timeColumn = document.getElementById('timeColumn');
             const eventsColumn = document.getElementById('eventsColumn');
@@ -923,22 +876,20 @@
             eventsColumn.innerHTML = '<div class="time-progress-line" id="timeProgressLine"></div>';
             
             for (let hour = 0; hour < 24; hour++) {
+                // Create time slot
                 const timeSlot = document.createElement('div');
                 timeSlot.className = 'time-slot';
-                if (hour === 12) timeSlot.classList.add('pm-marker');
+                if (hour % 1 === 0) timeSlot.classList.add('hour');
+                if (hour === 12) timeSlot.classList.add('noon');
                 
-                const timeString = String(hour).padStart(2, '0') + ':00';
+                const timeString = `${String(hour).padStart(2, '0')}:00`;
                 timeSlot.textContent = timeString;
                 timeColumn.appendChild(timeSlot);
                 
+                // Create events row
                 const eventsRow = document.createElement('div');
                 eventsRow.className = 'events-row';
                 eventsRow.dataset.hour = hour;
-                
-                // Add drag and drop event listeners for horizontal swapping
-                eventsRow.addEventListener('dragover', handleRowDragOver);
-                eventsRow.addEventListener('drop', handleRowDrop);
-                eventsRow.addEventListener('dragleave', handleRowDragLeave);
                 
                 // Add events for this hour
                 const hourEvents = scheduleData.filter(event => {
@@ -947,18 +898,25 @@
                 });
                 
                 hourEvents.forEach(event => {
-                    const eventBlock = createEventBlock(event);
-                    eventsRow.appendChild(eventBlock);
+                    eventsRow.appendChild(createEventBlock(event));
                 });
                 
+                // Add button
                 const addBtn = document.createElement('button');
                 addBtn.className = 'add-event-btn';
                 addBtn.textContent = '+';
-                addBtn.onclick = () => addNewEvent(String(hour).padStart(2, '0') + ':00');
+                addBtn.onclick = () => addNewEvent(`${String(hour).padStart(2, '0')}:00`);
                 eventsRow.appendChild(addBtn);
+                
+                // Drag and drop listeners
+                eventsRow.addEventListener('dragover', handleDragOver);
+                eventsRow.addEventListener('drop', handleDrop);
+                eventsRow.addEventListener('dragleave', handleDragLeave);
                 
                 eventsColumn.appendChild(eventsRow);
             }
+            
+            updateTime();
         }
 
         function createEventBlock(event) {
@@ -969,122 +927,134 @@
             eventBlock.draggable = true;
             eventBlock.style.backgroundColor = category ? category.color : '#e3f2fd';
             
-            eventBlock.innerHTML = `
-                <input type="text" class="event-content" value="${event.content}" 
-                       onchange="updateEventContent(${event.id}, this.value)">
-                <button class="delete-btn" onclick="deleteEvent(${event.id})">×</button>
-            `;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'event-content';
+            input.value = event.content;
+            input.onchange = (e) => updateEventContent(event.id, e.target.value);
             
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = '×';
+            deleteBtn.onclick = () => deleteEvent(event.id);
+            
+            eventBlock.appendChild(input);
+            eventBlock.appendChild(deleteBtn);
+            
+            // Drag events
             eventBlock.addEventListener('dragstart', handleDragStart);
             eventBlock.addEventListener('dragend', handleDragEnd);
             
             return eventBlock;
         }
 
+        function addNewEvent(time) {
+            const newEvent = {
+                id: nextEventId++,
+                time: time,
+                content: "New Event",
+                category: categories[0]?.id || "personal"
+            };
+            scheduleData.push(newEvent);
+            saveData();
+            createTimeSlots();
+        }
+
+        function deleteEvent(eventId) {
+            scheduleData = scheduleData.filter(e => e.id !== eventId);
+            saveData();
+            createTimeSlots();
+        }
+
+        function updateEventContent(eventId, newContent) {
+            const event = scheduleData.find(e => e.id === eventId);
+            if (event) {
+                event.content = newContent;
+                saveData();
+            }
+        }
+
+        // Drag and Drop
         function handleDragStart(e) {
-            e.dataTransfer.setData('text/plain', e.target.id);
+            draggedElement = e.target;
             e.target.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', e.target.innerHTML);
         }
 
         function handleDragEnd(e) {
             e.target.classList.remove('dragging');
-            // Remove any remaining drag-over classes
             document.querySelectorAll('.drag-over').forEach(el => {
                 el.classList.remove('drag-over');
             });
+            draggedElement = null;
         }
 
-        // Handle dragging over event rows (horizontal movement)
-        function handleRowDragOver(e) {
-            e.preventDefault();
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
             e.dataTransfer.dropEffect = 'move';
-            
-            // Only add visual feedback if dragging an event
-            const draggedId = e.dataTransfer.getData('text/plain');
-            if (draggedId && draggedId.startsWith('event-')) {
-                e.currentTarget.classList.add('drag-over');
-            }
+            e.currentTarget.classList.add('drag-over');
+            return false;
         }
 
-        function handleRowDragLeave(e) {
-            // Only remove if we're actually leaving the row
-            if (!e.currentTarget.contains(e.relatedTarget)) {
-                e.currentTarget.classList.remove('drag-over');
-            }
+        function handleDragLeave(e) {
+            if (e.currentTarget.contains(e.relatedTarget)) return;
+            e.currentTarget.classList.remove('drag-over');
         }
 
-        function handleRowDrop(e) {
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
             e.preventDefault();
+            
             e.currentTarget.classList.remove('drag-over');
             
-            const draggedId = e.dataTransfer.getData('text/plain');
-            if (!draggedId || !draggedId.startsWith('event-')) return;
+            if (!draggedElement) return;
             
-            const eventId = parseInt(draggedId.split('-')[1]);
-            const targetRow = e.currentTarget;
-            const newHour = parseInt(targetRow.dataset.hour);
-            const newMinute = parseInt(targetRow.dataset.minute || '0');
-            const newTime = String(newHour).padStart(2, '0') + ':' + String(newMinute).padStart(2, '0');
+            const eventId = parseInt(draggedElement.id.split('-')[1]);
+            const newHour = parseInt(e.currentTarget.dataset.hour);
+            const newTime = `${String(newHour).padStart(2, '0')}:00`;
             
-            // Find the event and update its time
-            const event = scheduleData.find(e => e.id === eventId);
+            const event = scheduleData.find(ev => ev.id === eventId);
             if (event) {
                 event.time = newTime;
-                
-                // If dropping within the same row, handle horizontal reordering
-                const draggedElement = document.getElementById(draggedId);
-                const dropTarget = e.target.closest('.event-block');
-                
-                if (dropTarget && dropTarget !== draggedElement && targetRow.contains(dropTarget)) {
-                    // Get the bounding rectangles to determine drop position
-                    const draggedRect = draggedElement.getBoundingClientRect();
-                    const targetRect = dropTarget.getBoundingClientRect();
-                    
-                    // Insert before or after based on horizontal position
-                    if (e.clientX < targetRect.left + targetRect.width / 2) {
-                        targetRow.insertBefore(draggedElement, dropTarget);
-                    } else {
-                        targetRow.insertBefore(draggedElement, dropTarget.nextSibling);
-                    }
-                    
-                    // Update time line visibility after horizontal move
-                    setTimeout(() => {
-                        updateTimeLineAfterChange();
-                    }, 50);
-                } else if (!targetRow.contains(draggedElement)) {
-                    // Moving to a different row - recreate the schedule
-                    createTimeSlots();
-                }
+                saveData();
+                createTimeSlots();
             }
+            
+            return false;
         }
 
-        // Calendar functions
+        // Calendar Functions
         function createMiniCalendar() {
             const year = viewingMonth.getFullYear();
             const month = viewingMonth.getMonth();
             
             const monthNames = ["January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"];
+                              "July", "August", "September", "October", "November", "December"];
             
             document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
             
-            const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
             
             let calendarHTML = '';
             
-            daysOfWeek.forEach(day => {
+            // Day headers
+            ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].forEach(day => {
                 calendarHTML += `<div class="calendar-day header">${day}</div>`;
             });
             
-            // Empty cells for days before month starts
-            for (let i = 0; i < firstDay; i++) {
-                calendarHTML += `<div class="calendar-day other-month"></div>`;
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                calendarHTML += `<div class="calendar-day other-month">${daysInPrevMonth - i}</div>`;
             }
             
-            // Days of the month
+            // Current month days
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
                 const isToday = date.toDateString() === currentDate.toDateString();
@@ -1097,14 +1067,20 @@
                 calendarHTML += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">${day}</div>`;
             }
             
+            // Next month days
+            const remainingDays = 42 - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingDays; day++) {
+                calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
             document.getElementById('calendarGrid').innerHTML = calendarHTML;
         }
 
         function selectDate(year, month, day) {
             selectedDate = new Date(year, month, day);
+            saveData();
             createMiniCalendar();
             updateTime();
-            createTimeSlots();
         }
 
         function previousMonth() {
@@ -1117,22 +1093,51 @@
             createMiniCalendar();
         }
 
-        // Category functions
+        // Category Functions
         function createCategoryList() {
             const categoryList = document.getElementById('categoryList');
             categoryList.innerHTML = '';
             
             categories.forEach(category => {
-                const categoryItem = document.createElement('div');
-                categoryItem.className = 'category-item';
-                categoryItem.innerHTML = `
-                    <div class="category-color" style="background-color: ${category.color}" 
-                         onclick="selectCategoryForColor('${category.id}')"></div>
-                    <input type="text" class="category-name" value="${category.name}" 
-                           onchange="updateCategoryName('${category.id}', this.value)">
-                    <button class="category-delete" onclick="deleteCategory('${category.id}')">×</button>
-                `;
-                categoryList.appendChild(categoryItem);
+                const item = document.createElement('div');
+                item.className = 'category-item';
+                
+                const color = document.createElement('div');
+                color.className = 'category-color';
+                if (selectedCategoryForColor === category.id) {
+                    color.classList.add('selected');
+                }
+                color.style.backgroundColor = category.color;
+                color.onclick = () => selectCategoryForColor(category.id);
+                
+                const name = document.createElement('input');
+                name.type = 'text';
+                name.className = 'category-name';
+                name.value = category.name;
+                name.onchange = (e) => updateCategoryName(category.id, e.target.value);
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'category-delete';
+                deleteBtn.textContent = '×';
+                deleteBtn.onclick = () => deleteCategory(category.id);
+                
+                item.appendChild(color);
+                item.appendChild(name);
+                item.appendChild(deleteBtn);
+                categoryList.appendChild(item);
+            });
+        }
+
+        function createColorPalette() {
+            const palette = document.getElementById('colorPalette');
+            palette.innerHTML = '';
+            
+            colorOptions.forEach(color => {
+                const option = document.createElement('div');
+                option.className = 'color-option';
+                option.style.backgroundColor = color;
+                option.onclick = () => selectColor(color);
+                palette.appendChild(option);
             });
         }
 
@@ -1140,27 +1145,35 @@
             const newCategory = {
                 id: `category-${nextCategoryId++}`,
                 name: "New Category",
-                color: "#e3f2fd"
+                color: colorOptions[Math.floor(Math.random() * colorOptions.length)]
             };
             categories.push(newCategory);
+            saveData();
             createCategoryList();
         }
 
         function deleteCategory(categoryId) {
+            if (categories.length <= 1) {
+                alert('You must have at least one category');
+                return;
+            }
             categories = categories.filter(c => c.id !== categoryId);
+            saveData();
             createCategoryList();
-            createTimeSlots(); // Refresh events
+            createTimeSlots();
         }
 
         function updateCategoryName(categoryId, newName) {
             const category = categories.find(c => c.id === categoryId);
             if (category) {
                 category.name = newName;
+                saveData();
             }
         }
 
         function selectCategoryForColor(categoryId) {
             selectedCategoryForColor = categoryId;
+            createCategoryList();
         }
 
         function selectColor(color) {
@@ -1168,77 +1181,57 @@
                 const category = categories.find(c => c.id === selectedCategoryForColor);
                 if (category) {
                     category.color = color;
+                    saveData();
                     createCategoryList();
-                    createTimeSlots(); // Refresh events with new colors
+                    createTimeSlots();
                 }
-                selectedCategoryForColor = null;
             }
         }
 
-        function updateTimeLineAfterChange() {
-            const now = new Date();
-            const totalMinutesInDay = 24 * 60;
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            
-            const eventsColumn = document.getElementById('eventsColumn');
-            if (eventsColumn) {
-                const columnHeight = eventsColumn.offsetHeight;
-                const linePosition = (currentMinutes / totalMinutesInDay) * columnHeight;
-                updateTimeLineVisibility(linePosition);
-            }
-        }
-
-        // Event functions
-        function addNewEvent(time) {
-            const newEvent = {
-                id: nextEventId++,
-                time: time,
-                content: "New Event",
-                category: categories[0]?.id || "personal"
-            };
-            scheduleData.push(newEvent);
-            createTimeSlots();
-        }
-
-        function deleteEvent(eventId) {
-            scheduleData = scheduleData.filter(e => e.id !== eventId);
-            createTimeSlots();
-        }
-
-        function updateEventContent(eventId, newContent) {
-            const event = scheduleData.find(e => e.id === eventId);
-            if (event) {
-                event.content = newContent;
-                // Update time line visibility in case content change affects layout
-                setTimeout(() => {
-                    updateTimeLineAfterChange();
-                }, 50);
-            }
-        }
-
-        // API Integration functions
+        // Sync Functions
         function syncGoogleCalendar() {
-            document.getElementById('syncStatus').textContent = 'Connecting to Google Calendar...';
-            // Simulate API call
+            const status = document.getElementById('syncStatus');
+            status.textContent = 'Connecting to Google...';
             setTimeout(() => {
-                document.getElementById('syncStatus').textContent = 'Google Calendar connected ✓';
-            }, 2000);
+                status.textContent = 'Google Calendar connected ✓';
+                status.style.color = '#22c55e';
+            }, 1500);
         }
 
         function syncOutlook() {
-            document.getElementById('syncStatus').textContent = 'Connecting to Outlook...';
-            // Simulate API call
+            const status = document.getElementById('syncStatus');
+            status.textContent = 'Connecting to Outlook...';
             setTimeout(() => {
-                document.getElementById('syncStatus').textContent = 'Outlook connected ✓';
-            }, 2000);
+                status.textContent = 'Outlook connected ✓';
+                status.style.color = '#22c55e';
+            }, 1500);
         }
 
-        // Initialize
-        createMiniCalendar();
-        createCategoryList();
-        createTimeSlots();
-        updateTime();
-        setInterval(updateTime, 1000);
+        // Initialize Application
+        function init() {
+            loadData();
+            
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                const icon = document.getElementById('themeIcon');
+                icon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+            }
+            
+            createTimeSlots();
+            createMiniCalendar();
+            createCategoryList();
+            createColorPalette();
+            updateTime();
+            
+            // Update time every second
+            setInterval(updateTime, 1000);
+            
+            // Auto-save every 30 seconds
+            setInterval(saveData, 30000);
+        }
+
+        // Start the application
+        init();
     </script>
 </body>
 </html>
