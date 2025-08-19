@@ -5,91 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily University Planner</title>
     <style>
+        /* ================================
+           GLOBAL RESET & BASE STYLES
+           ================================
+           This section resets default browser styles and sets up base rules */
+        
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0;              /* Remove default margins from all elements */
+            padding: 0;             /* Remove default padding from all elements */
+            box-sizing: border-box; /* Include padding and border in element's total width/height */
         }
 
         body {
+            /* Use system fonts for better performance and native look */
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #ffffff;
-            color: #37352f;
-            line-height: 1.5;
-            padding: 20px;
-            overflow-x: hidden;
+            background: #ffffff;    /* White background */
+            color: #37352f;         /* Dark gray text color for good readability */
+            line-height: 1.5;       /* Spacing between lines of text */
+            padding: 20px;          /* Space around the entire content */
+            overflow-x: hidden;     /* Prevent horizontal scrolling */
         }
 
+        /* ================================
+           MAIN LAYOUT STRUCTURE
+           ================================ */
+        
         .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 30px;
-            min-height: calc(100vh - 40px);
+            max-width: 1400px;                      /* Maximum width for large screens */
+            margin: 0 auto;                         /* Center the container */
+            display: grid;                          /* Use CSS Grid for layout */
+            grid-template-columns: 1fr 320px;      /* Main column flexible, sidebar 320px */
+            gap: 30px;                              /* Space between columns */
+            min-height: calc(100vh - 40px);        /* Full viewport height minus padding */
         }
 
         .left-column {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
+            display: flex;                          /* Use flexbox for vertical layout */
+            flex-direction: column;                 /* Stack items vertically */
+            min-width: 0;                          /* Prevent overflow issues */
         }
 
         .right-column {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            min-width: 280px;
-            max-width: 320px;
+            gap: 20px;                              /* Space between sidebar sections */
+            min-width: 280px;                      /* Minimum width to prevent squishing */
+            max-width: 320px;                      /* Maximum width to maintain design */
         }
 
-        /* Header Section */
+        /* ================================
+           HEADER SECTION (Date & Time Display)
+           ================================ */
+        
         .header-section {
-            text-align: center;
-            margin-bottom: 25px;
+            text-align: center;                     /* Center align all header content */
+            margin-bottom: 20px;                    /* Space below header */
         }
 
         .date-display {
-            font-size: 18px;
-            font-weight: 600;
             color: #37352f;
-            margin-bottom: 8px;
+            margin-bottom: 12px;                    /* Space between date and time */
+            line-height: 1.2;                       /* Tighter line spacing */
+        }
+        
+        .date-day {
+            font-size: 30px;                        /* Large day name */
+            font-weight: 700;                       /* Bold weight */
+            display: block;                         /* Make it take full width */
+            margin-bottom: 4px;                     /* Small gap before date */
+        }
+        
+        .date-full {
+            font-size: 16px;                        /* Smaller full date */
+            font-weight: 500;                       /* Medium weight */
+            display: block;                         /* New line */
+            opacity: 0.8;                           /* Slightly transparent for hierarchy */
         }
 
         .time-display {
-            font-size: 48px;
-            font-weight: 900;
+            font-size: 48px;                        /* Large time display */
+            font-weight: 900;                       /* Extra bold */
             color: #37352f;
+            /* Use monospace font for consistent digit width */
             font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            letter-spacing: -1px;                   /* Slightly tighter letter spacing */
         }
 
-        /* Progress Bar */
+        /* ================================
+           PROGRESS BAR SECTION
+           ================================
+           Shows how much of the day has passed */
+        
         .progress-section {
             margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: flex;                          /* Horizontal layout */
+            align-items: center;                    /* Vertically center items */
+            gap: 12px;                              /* Space between items */
         }
 
+        /* Dark mode toggle button */
         .theme-toggle {
             background: #ffffff;
             border: 2px solid #c5c5c5;
-            border-radius: 8px;
+            border-radius: 8px;                     /* Rounded corners */
             width: 36px;
             height: 25px;
-            cursor: pointer;
+            cursor: pointer;                        /* Show hand cursor on hover */
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s ease;
-            flex-shrink: 0;
+            transition: all 0.15s ease;             /* Smooth animation */
+            flex-shrink: 0;                         /* Don't shrink this button */
         }
 
         .theme-toggle:hover {
-            border-color: #787774;
-            transform: scale(1.05);
+            border-color: #787774;                  /* Darker border on hover */
+            transform: scale(1.05);                 /* Slightly enlarge on hover */
         }
 
         .brightness-icon {
@@ -97,49 +130,59 @@
             height: 16px;
         }
 
+        /* Progress bar container with gradient background */
         .progress-container {
-            position: relative;
-            flex: 1;
+            position: relative;                     /* For absolute positioning of children */
+            flex: 1;                               /* Take remaining space */
             height: 25px;
+            /* Gradient from purple to blue for visual appeal */
             background: linear-gradient(90deg, #9b59b6, #3498db, #87ceeb, #3498db, #9b59b6);
-            border-radius: 12px;
-            overflow: hidden;
+            border-radius: 12px;                   /* Rounded ends */
+            overflow: hidden;                       /* Hide overflow for clean edges */
         }
 
+        /* Percentage text display */
         .progress-percent {
             font-size: 16px;
             font-weight: bold;
             color: #37352f;
-            min-width: 45px;
+            min-width: 45px;                       /* Ensure space for "100%" */
             text-align: right;
         }
 
+        /* Gray overlay showing passed time */
         .progress-passed {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
+            /* Gray gradient for passed time */
             background: linear-gradient(90deg, #666, #888, #999, #888, #666);
-            transition: width 0.5s ease;
-            border-radius: 12px 0 0 12px;
+            transition: width 0.5s ease;           /* Smooth width animation */
+            border-radius: 12px 0 0 12px;          /* Round left side only */
         }
 
+        /* Yellow indicator showing current time position */
         .time-indicator {
             position: absolute;
-            top: -2px;
+            top: -2px;                             /* Slightly above bar */
             width: 4px;
-            height: 29px;
-            background: #f1c40f;
+            height: 29px;                          /* Slightly taller than bar */
+            background: #f1c40f;                   /* Yellow color */
             border-radius: 2px;
-            transition: left 0.5s ease;
-            box-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
-            z-index: 2;
+            transition: left 0.5s ease;            /* Smooth position animation */
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.5); /* Glow effect */
+            z-index: 2;                            /* Above other elements */
         }
 
-        /* Schedule Section */
+        /* ================================
+           SCHEDULE SECTION
+           ================================
+           Main area showing hourly schedule */
+        
         .schedule-section {
-            flex: 1;
-            overflow: hidden;
+            flex: 1;                               /* Take remaining vertical space */
+            overflow: hidden;                      /* Prevent overflow */
         }
 
         .section-title {
@@ -149,144 +192,162 @@
             margin-bottom: 16px;
         }
 
+        /* Grid layout for time slots and events */
         .schedule-grid {
             display: grid;
-            grid-template-columns: 60px 1fr;
-            background: #fafafa;
+            grid-template-columns: 60px 1fr;       /* Fixed time column, flexible events column */
+            background: #fafafa;                   /* Light gray background */
             border-radius: 12px;
             padding: 20px;
-            height: 600px;
+            height: 600px;                         /* Fixed height */
             position: relative;
-            overflow-y: auto;
-            overflow-x: hidden;
+            overflow-y: auto;                      /* Vertical scroll if needed */
+            overflow-x: hidden;                    /* No horizontal scroll */
         }
 
+        /* Left column showing times */
         .time-column {
             display: flex;
             flex-direction: column;
-            border-right: 1px solid #e9e9e7;
+            border-right: 1px solid #e9e9e7;       /* Vertical separator line */
             padding-right: 15px;
         }
 
+        /* Individual time slot (e.g., "09:00") */
         .time-slot {
-            height: 50px;
+            height: 50px;                          /* Fixed height for consistency */
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Monospace font for aligned numbers */
             font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
             font-size: 12px;
-            color: #787774;
+            color: #787774;                        /* Medium gray */
             font-weight: 500;
             position: relative;
         }
 
+        /* Hour markers (darker color) */
         .time-slot.hour {
-            color: #37352f;
+            color: #37352f;                        /* Darker for emphasis */
             font-weight: 600;
         }
 
+        /* Special styling for noon (12:00) */
         .time-slot.noon {
-            border-top: 1px dotted #2383e2;
+            border-top: 1px dotted #2383e2;        /* Blue dotted line */
             padding-top: 2px;
         }
 
+        /* Right column containing events */
         .events-column {
             padding-left: 15px;
-            position: relative;
+            position: relative;                    /* For positioning progress line */
         }
 
+        /* Red line showing current time in schedule */
         .time-progress-line {
             position: absolute;
-            left: -15px;
+            left: -15px;                           /* Extend to time column */
             right: 0;
             height: 2px;
+            /* Gradient for subtle effect */
             background: linear-gradient(90deg, rgba(255, 71, 87, 0.8), rgba(255, 71, 87, 0.4));
-            z-index: 10;
-            transition: top 0.5s ease;
+            z-index: 10;                           /* Above events */
+            transition: top 0.5s ease;             /* Smooth movement */
             border-radius: 1px;
-            pointer-events: none;
+            pointer-events: none;                  /* Don't interfere with clicks */
         }
 
+        /* Row for events at each hour */
         .events-row {
-            min-height: 50px;
+            min-height: 50px;                      /* Match time slot height */
             display: flex;
             align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 8px;                              /* Space between events */
+            flex-wrap: wrap;                       /* Allow wrapping if many events */
             position: relative;
             padding: 5px 0;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease;      /* Smooth hover effect */
         }
 
+        /* Visual feedback when dragging over a row */
         .events-row.drag-over {
-            background: rgba(35, 131, 226, 0.1);
+            background: rgba(35, 131, 226, 0.1);   /* Light blue highlight */
             border-radius: 6px;
         }
 
+        /* Individual event block */
         .event-block {
-            background: #e3f2fd;
-            border: 1px solid #bbdefb;
+            background: #e3f2fd;                   /* Light blue background */
+            border: 1px solid #bbdefb;             /* Slightly darker border */
             border-radius: 8px;
             padding: 6px 12px;
             font-size: 12px;
             font-weight: 500;
-            cursor: move;
+            cursor: move;                          /* Indicate draggable */
             transition: all 0.15s ease;
             position: relative;
-            min-width: 100px;
-            max-width: 200px;
+            min-width: 100px;                      /* Minimum width for readability */
+            max-width: 200px;                      /* Maximum to prevent too wide */
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
 
+        /* Hover effect for events */
         .event-block:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            transform: translateY(-1px);
-            z-index: 5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Shadow for depth */
+            transform: translateY(-1px);           /* Slight lift effect */
+            z-index: 5;                           /* Above other events */
         }
 
+        /* Style while dragging */
         .event-block.dragging {
-            opacity: 0.5;
-            z-index: 1000;
+            opacity: 0.5;                          /* Semi-transparent */
+            z-index: 1000;                         /* On top of everything */
         }
 
+        /* Event text input */
         .event-content {
-            background: transparent;
-            border: none;
-            outline: none;
+            background: transparent;               /* No background */
+            border: none;                         /* No border */
+            outline: none;                        /* No focus outline */
             font-size: 12px;
             font-weight: 500;
             width: 100%;
             color: #37352f;
-            cursor: text;
+            cursor: text;                         /* Text cursor */
         }
 
+        /* Delete button (X) for events */
         .delete-btn {
             position: absolute;
-            top: -6px;
+            top: -6px;                            /* Position outside event */
             right: -6px;
-            background: #ff4757;
+            background: #ff4757;                  /* Red background */
             color: white;
             border: none;
-            border-radius: 50%;
+            border-radius: 50%;                   /* Circle shape */
             width: 18px;
             height: 18px;
             font-size: 12px;
             cursor: pointer;
-            display: none;
+            display: none;                        /* Hidden by default */
             align-items: center;
             justify-content: center;
             z-index: 10;
         }
 
+        /* Show delete button on hover */
         .event-block:hover .delete-btn {
             display: flex;
         }
 
+        /* Add new event button */
         .add-event-btn {
             background: transparent;
-            border: 1px dashed #c5c5c5;
+            border: 1px dashed #c5c5c5;           /* Dashed border */
             color: #787774;
             padding: 4px 10px;
             border-radius: 6px;
@@ -296,14 +357,18 @@
         }
 
         .add-event-btn:hover {
-            border-color: #2383e2;
-            color: #2383e2;
-            background: rgba(35, 131, 226, 0.05);
+            border-color: #2383e2;                /* Blue border on hover */
+            color: #2383e2;                      /* Blue text */
+            background: rgba(35, 131, 226, 0.05); /* Very light blue background */
         }
 
-        /* Right Column Sections */
+        /* ================================
+           RIGHT SIDEBAR SECTIONS
+           ================================ */
+        
+        /* Shared styles for calendar and category sections */
         .calendar-section, .category-section {
-            background: #f7f6f3;
+            background: #f7f6f3;                  /* Light beige background */
             border-radius: 12px;
             padding: 20px;
             display: flex;
@@ -317,37 +382,44 @@
             margin-bottom: 12px;
         }
 
+        /* Sync buttons container */
         .sync-buttons {
             display: flex;
-            gap: 8px;
+            gap: 8px;                             /* Space between buttons */
             margin-bottom: 12px;
         }
 
+        /* Individual sync button */
         .sync-btn {
-            background: #2383e2;
+            background: #2383e2;                  /* Blue background */
             color: white;
             border: none;
             border-radius: 6px;
             padding: 6px 12px;
             font-size: 12px;
             cursor: pointer;
-            flex: 1;
+            flex: 1;                              /* Equal width buttons */
             transition: all 0.15s ease;
         }
 
         .sync-btn:hover {
-            background: #1e6bb8;
-            transform: translateY(-1px);
+            background: #1e6bb8;                  /* Darker blue on hover */
+            transform: translateY(-1px);          /* Slight lift */
         }
 
+        /* Status message for sync */
         .sync-status {
             font-size: 11px;
             color: #787774;
             margin-bottom: 12px;
-            font-style: italic;
+            font-style: italic;                   /* Italic for status text */
         }
 
-        /* Mini Calendar */
+        /* ================================
+           MINI CALENDAR
+           ================================ */
+        
+        /* Calendar month header */
         .calendar-header {
             text-align: center;
             font-weight: 600;
@@ -355,10 +427,11 @@
             margin-bottom: 12px;
             color: #37352f;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between;       /* Spread items apart */
             align-items: center;
         }
 
+        /* Previous/Next month navigation buttons */
         .nav-btn {
             background: none;
             border: none;
@@ -370,16 +443,18 @@
         }
 
         .nav-btn:hover {
-            color: #37352f;
-            transform: scale(1.2);
+            color: #37352f;                      /* Darker on hover */
+            transform: scale(1.2);                /* Enlarge slightly */
         }
 
+        /* Calendar days grid */
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
+            grid-template-columns: repeat(7, 1fr); /* 7 columns for days of week */
+            gap: 2px;                              /* Small gap between days */
         }
 
+        /* Individual calendar day */
         .calendar-day {
             text-align: center;
             padding: 6px 2px;
@@ -390,46 +465,57 @@
             transition: all 0.15s ease;
         }
 
+        /* Day name headers (Su, Mo, Tu, etc.) */
         .calendar-day.header {
             font-weight: 600;
             color: #37352f;
             font-size: 10px;
-            cursor: default;
+            cursor: default;                      /* No pointer cursor */
         }
 
+        /* Today's date styling */
         .calendar-day.current {
-            background: #2383e2;
+            background: #2383e2;                  /* Blue background */
             color: white;
             font-weight: 600;
         }
 
+        /* Selected date styling */
         .calendar-day.selected {
-            background: #ff9800;
+            background: #ff9800;                  /* Orange background */
             color: white;
             font-weight: 600;
         }
 
+        /* Days from previous/next month */
         .calendar-day.other-month {
-            color: #c5c5c5;
+            color: #c5c5c5;                      /* Light gray */
         }
 
+        /* Hover effect for clickable days */
         .calendar-day:hover:not(.header):not(.other-month) {
-            background: #e3f2fd;
-            transform: scale(1.1);
+            background: #e3f2fd;                  /* Light blue */
+            transform: scale(1.1);                /* Slight enlargement */
         }
 
-        /* Category Section */
+        /* ================================
+           CATEGORY SECTION
+           ================================
+           Manage event categories and colors */
+        
+        /* Category list container */
         .category-list {
-            flex: 1;
+            flex: 1;                              /* Take available space */
             margin-bottom: 12px;
-            max-height: 200px;
-            overflow-y: auto;
+            max-height: 200px;                    /* Limit height */
+            overflow-y: auto;                     /* Scroll if needed */
         }
 
+        /* Individual category item */
         .category-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 8px;                             /* Space between elements */
             margin-bottom: 8px;
             padding: 6px;
             border-radius: 6px;
@@ -437,9 +523,10 @@
         }
 
         .category-item:hover {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5); /* Light overlay on hover */
         }
 
+        /* Category color indicator */
         .category-color {
             width: 18px;
             height: 18px;
@@ -450,17 +537,19 @@
         }
 
         .category-color:hover {
-            border-color: #37352f;
-            transform: scale(1.1);
+            border-color: #37352f;                /* Dark border on hover */
+            transform: scale(1.1);                /* Slight enlargement */
         }
 
+        /* Selected category for color change */
         .category-color.selected {
-            border-color: #2383e2;
-            box-shadow: 0 0 0 2px rgba(35, 131, 226, 0.2);
+            border-color: #2383e2;                /* Blue border */
+            box-shadow: 0 0 0 2px rgba(35, 131, 226, 0.2); /* Blue glow */
         }
 
+        /* Category name input */
         .category-name {
-            flex: 1;
+            flex: 1;                              /* Take remaining space */
             background: transparent;
             border: none;
             outline: none;
@@ -469,26 +558,30 @@
             padding: 2px 4px;
         }
 
+        /* Show white background when editing */
         .category-name:focus {
             background: white;
             border-radius: 4px;
         }
 
+        /* Delete category button */
         .category-delete {
             background: none;
             border: none;
-            color: #ff4757;
+            color: #ff4757;                      /* Red color */
             cursor: pointer;
             font-size: 14px;
-            opacity: 0;
+            opacity: 0;                          /* Hidden by default */
             transition: opacity 0.15s ease;
             padding: 2px 4px;
         }
 
+        /* Show delete button on hover */
         .category-item:hover .category-delete {
             opacity: 1;
         }
 
+        /* Add new category button */
         .add-category-btn {
             background: transparent;
             border: 1px dashed #c5c5c5;
@@ -506,13 +599,15 @@
             background: rgba(35, 131, 226, 0.05);
         }
 
+        /* Color palette grid */
         .color-palette {
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(8, 1fr); /* 8 colors per row */
             gap: 4px;
             padding: 8px 0;
         }
 
+        /* Individual color option */
         .color-option {
             width: 24px;
             height: 24px;
@@ -524,30 +619,40 @@
 
         .color-option:hover {
             border-color: #37352f;
-            transform: scale(1.2);
+            transform: scale(1.2);                /* Enlarge on hover */
         }
 
-        /* Dark Mode */
+        /* ================================
+           DARK MODE STYLES
+           ================================
+           Override styles for dark theme */
+        
         body.dark-mode {
-            background: #1a1a1a;
-            color: #e4e4e4;
+            background: #1a1a1a;                 /* Dark background */
+            color: #e4e4e4;                      /* Light text */
         }
 
+        /* Update text colors in dark mode */
         .dark-mode .date-display,
+        .dark-mode .date-day,
+        .dark-mode .date-full,
         .dark-mode .time-display,
         .dark-mode .section-title,
         .dark-mode .section-header {
             color: #e4e4e4;
         }
 
+        /* Dark schedule grid */
         .dark-mode .schedule-grid {
             background: #2d2d2d;
         }
 
+        /* Dark border for time column */
         .dark-mode .time-column {
             border-right-color: #404040;
         }
 
+        /* Lighter time slot text */
         .dark-mode .time-slot {
             color: #999;
         }
@@ -556,11 +661,13 @@
             color: #c0c0c0;
         }
 
+        /* Dark sidebar sections */
         .dark-mode .calendar-section,
         .dark-mode .category-section {
             background: #2d2d2d;
         }
 
+        /* Calendar day colors in dark mode */
         .dark-mode .calendar-day {
             color: #a0a0a0;
         }
@@ -573,10 +680,12 @@
             background: #404040;
         }
 
+        /* Category name in dark mode */
         .dark-mode .category-name {
             color: #e4e4e4;
         }
 
+        /* Dark theme toggle button */
         .dark-mode .theme-toggle {
             background: #2d2d2d;
             border-color: #606060;
@@ -586,10 +695,12 @@
             border-color: #a0a0a0;
         }
 
+        /* Progress percentage in dark mode */
         .dark-mode .progress-percent {
             color: #e4e4e4;
         }
 
+        /* Buttons in dark mode */
         .dark-mode .add-event-btn,
         .dark-mode .add-category-btn {
             border-color: #606060;
@@ -602,56 +713,75 @@
             color: #2383e2;
         }
 
-        /* Responsive Design */
+        /* ================================
+           RESPONSIVE DESIGN
+           ================================
+           Adjust layout for different screen sizes */
+        
+        /* Tablet size (1024px and below) */
         @media (max-width: 1024px) {
             .main-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr;       /* Single column layout */
                 gap: 20px;
             }
             
             .right-column {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr;   /* Two columns for sidebar items */
                 gap: 20px;
                 max-width: 100%;
             }
         }
 
+        /* Mobile size (768px and below) */
         @media (max-width: 768px) {
+            .date-day {
+                font-size: 24px;                  /* Smaller day name on mobile */
+            }
+            
             .time-display {
-                font-size: 36px;
+                font-size: 36px;                  /* Smaller time on mobile */
             }
             
             .right-column {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr;       /* Single column on mobile */
             }
             
             .schedule-grid {
-                grid-template-columns: 50px 1fr;
-                padding: 15px;
+                grid-template-columns: 50px 1fr;  /* Narrower time column */
+                padding: 15px;                    /* Less padding */
             }
         }
 
-        /* Scrollbar Styling */
+        /* ================================
+           CUSTOM SCROLLBAR
+           ================================
+           Style the scrollbar for better appearance */
+        
+        /* Scrollbar width */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
 
+        /* Scrollbar track (background) */
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 4px;
         }
 
+        /* Scrollbar handle */
         ::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 4px;
         }
 
+        /* Scrollbar handle on hover */
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
 
+        /* Dark mode scrollbar */
         .dark-mode ::-webkit-scrollbar-track {
             background: #2d2d2d;
         }
@@ -666,16 +796,26 @@
     </style>
 </head>
 <body>
+    <!-- Main container holding entire planner -->
     <div class="main-container">
+        <!-- Left side: Header and Schedule -->
         <div class="left-column">
+            <!-- Date and Time Display -->
             <div class="header-section">
-                <div class="date-display" id="dateDisplay">Loading...</div>
+                <div class="date-display" id="dateDisplay">
+                    <span class="date-day">Loading...</span>
+                    <span class="date-full"></span>
+                </div>
                 <div class="time-display" id="timeDisplay">00:00:00</div>
             </div>
 
+            <!-- Progress Bar Section -->
             <div class="progress-section">
+                <!-- Dark mode toggle button -->
                 <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <!-- SVG icon for sun/moon -->
                     <svg class="brightness-icon" id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <!-- Sun icon (default light mode) -->
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
                         <line x1="12" y1="21" x2="12" y2="23"/>
@@ -687,17 +827,22 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                     </svg>
                 </button>
+                <!-- Progress bar showing day completion -->
                 <div class="progress-container">
                     <div class="progress-passed" id="progressPassed"></div>
                     <div class="time-indicator" id="timeIndicator"></div>
                 </div>
+                <!-- Percentage display -->
                 <div class="progress-percent" id="progressPercent">0%</div>
             </div>
 
+            <!-- Main Schedule Section -->
             <div class="schedule-section">
                 <h2 class="section-title">Today's Schedule</h2>
                 <div class="schedule-grid">
+                    <!-- Time labels column (00:00 - 23:00) -->
                     <div class="time-column" id="timeColumn"></div>
+                    <!-- Events column with time progress line -->
                     <div class="events-column" id="eventsColumn">
                         <div class="time-progress-line" id="timeProgressLine"></div>
                     </div>
@@ -705,44 +850,64 @@
             </div>
         </div>
 
+        <!-- Right sidebar -->
         <div class="right-column">
+            <!-- Calendar Section -->
             <div class="calendar-section">
                 <div class="section-header">Calendar</div>
+                <!-- Sync buttons for external calendars -->
                 <div class="sync-buttons">
                     <button class="sync-btn" onclick="syncGoogleCalendar()">📅 Google</button>
                     <button class="sync-btn" onclick="syncOutlook()">📧 Outlook</button>
                 </div>
+                <!-- Sync status message -->
                 <div class="sync-status" id="syncStatus">Not connected</div>
                 
+                <!-- Mini calendar widget -->
                 <div class="mini-calendar">
                     <div class="calendar-header">
                         <button class="nav-btn" onclick="previousMonth()">‹</button>
                         <span id="calendarMonth">Loading...</span>
                         <button class="nav-btn" onclick="nextMonth()">›</button>
                     </div>
+                    <!-- Calendar days grid (7x6) -->
                     <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
             </div>
 
+            <!-- Category Management Section -->
             <div class="category-section">
                 <div class="section-header">Event Categories</div>
+                <!-- List of categories -->
                 <div class="category-list" id="categoryList"></div>
+                <!-- Add new category button -->
                 <button class="add-category-btn" onclick="addCategory()">+ Add Category</button>
+                <!-- Color selection palette -->
                 <div class="color-palette" id="colorPalette"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // State Management
-        let currentDate = new Date();
-        let selectedDate = new Date();
-        let viewingMonth = new Date();
-        let selectedCategoryForColor = null;
-        let draggedElement = null;
-        let isDarkMode = false;
+        // ================================
+        // GLOBAL STATE VARIABLES
+        // ================================
+        
+        // Date and time tracking
+        let currentDate = new Date();              // Today's actual date
+        let selectedDate = new Date();             // Currently selected date for planning
+        let viewingMonth = new Date();             // Month being viewed in calendar
+        
+        // UI state
+        let selectedCategoryForColor = null;       // Category being recolored
+        let draggedElement = null;                 // Element being dragged
+        let isDarkMode = false;                    // Dark mode toggle state
 
-        // Default Data
+        // ================================
+        // DEFAULT DATA
+        // ================================
+        
+        // Initial schedule events (can be modified by user)
         let scheduleData = [
             { id: 1, time: "08:00", content: "Morning Routine", category: "personal" },
             { id: 2, time: "09:00", content: "Mathematics Lecture", category: "study" },
@@ -752,6 +917,7 @@
             { id: 6, time: "19:30", content: "Assignment Work", category: "study" }
         ];
 
+        // Default categories with colors
         let categories = [
             { id: "personal", name: "Personal", color: "#fce4ec" },
             { id: "study", name: "Study", color: "#e3f2fd" },
@@ -760,6 +926,7 @@
             { id: "fitness", name: "Fitness", color: "#90caf9" }
         ];
 
+        // Available colors for categories (16 pastel colors)
         const colorOptions = [
             "#fce4ec", "#f3e5f5", "#e8eaf6", "#e3f2fd",
             "#f8bbd9", "#e1bee7", "#c5cae9", "#bbdefb",
@@ -767,36 +934,51 @@
             "#f06292", "#ba68c8", "#7986cb", "#64b5f6"
         ];
 
-        let nextEventId = 7;
-        let nextCategoryId = 6;
+        // ID counters for new items
+        let nextEventId = 7;                       // Next event ID to assign
+        let nextCategoryId = 6;                    // Next category ID to assign
 
-        // Data Persistence
+        // ================================
+        // DATA PERSISTENCE FUNCTIONS
+        // ================================
+        
+        /**
+         * Save all planner data to browser storage
+         * Uses sessionStorage for temporary storage (clears when tab closes)
+         */
         function saveData() {
             try {
                 const data = {
-                    scheduleData,
-                    categories,
-                    nextEventId,
-                    nextCategoryId,
-                    isDarkMode,
-                    selectedDate: selectedDate.toISOString()
+                    scheduleData,                  // All events
+                    categories,                    // All categories
+                    nextEventId,                   // Counter state
+                    nextCategoryId,                // Counter state
+                    isDarkMode,                    // Theme preference
+                    selectedDate: selectedDate.toISOString() // Selected date as string
                 };
+                // Convert to JSON and store
                 sessionStorage.setItem('plannerData', JSON.stringify(data));
             } catch (e) {
                 console.log('Storage not available');
             }
         }
 
+        /**
+         * Load saved data from browser storage
+         * Restores previous session if available
+         */
         function loadData() {
             try {
                 const saved = sessionStorage.getItem('plannerData');
                 if (saved) {
                     const data = JSON.parse(saved);
+                    // Restore each piece of data, using defaults if missing
                     scheduleData = data.scheduleData || scheduleData;
                     categories = data.categories || categories;
                     nextEventId = data.nextEventId || nextEventId;
                     nextCategoryId = data.nextCategoryId || nextCategoryId;
                     isDarkMode = data.isDarkMode || false;
+                    // Parse date strings back to Date objects
                     if (data.selectedDate) {
                         selectedDate = new Date(data.selectedDate);
                         viewingMonth = new Date(data.selectedDate);
@@ -807,17 +989,26 @@
             }
         }
 
-        // Theme Management
+        // ================================
+        // THEME MANAGEMENT
+        // ================================
+        
+        /**
+         * Toggle between light and dark mode
+         * Changes icon and applies dark-mode class to body
+         */
         function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('dark-mode', isDarkMode);
+            isDarkMode = !isDarkMode;              // Flip the boolean
+            document.body.classList.toggle('dark-mode', isDarkMode); // Add/remove class
             
             const icon = document.getElementById('themeIcon');
             if (isDarkMode) {
+                // Moon icon for dark mode
                 icon.innerHTML = `
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                 `;
             } else {
+                // Sun icon for light mode
                 icon.innerHTML = `
                     <circle cx="12" cy="12" r="5"/>
                     <line x1="12" y1="1" x2="12" y2="3"/>
@@ -830,85 +1021,122 @@
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                 `;
             }
-            saveData();
+            saveData();                            // Save preference
         }
 
-        // Time and Date Functions
+        // ================================
+        // TIME AND DATE FUNCTIONS
+        // ================================
+        
+        /**
+         * Update all time-related displays
+         * Called every second to keep time current
+         */
         function updateTime() {
-            const now = new Date();
+            const now = new Date();                // Current time
             
-            // Update time display
+            // Update digital clock display (HH:MM:SS)
             document.getElementById('timeDisplay').textContent = now.toTimeString().slice(0, 8);
             
-            // Update date display
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('dateDisplay').textContent = selectedDate.toLocaleDateString('en-US', options);
+            // Arrays for formatting date strings
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayName = days[selectedDate.getDay()];
+            const monthName = months[selectedDate.getMonth()];
+            const day = selectedDate.getDate();
+            const year = selectedDate.getFullYear();
             
-            // Update progress bar
-            const totalMinutes = 24 * 60;
+            // Add ordinal suffix (1st, 2nd, 3rd, 4th, etc.)
+            const suffix = day % 10 === 1 && day !== 11 ? 'st' : 
+                          day % 10 === 2 && day !== 12 ? 'nd' : 
+                          day % 10 === 3 && day !== 13 ? 'rd' : 'th';
+            
+            // Update the date display with two lines
+            document.getElementById('dateDisplay').innerHTML = 
+                `<span class="date-day">${dayName}</span>
+                 <span class="date-full">${monthName} ${day}${suffix}, ${year}</span>`;
+            
+            // Calculate progress through the day (0-100%)
+            const totalMinutes = 24 * 60;          // 1440 minutes in a day
             const currentMinutes = now.getHours() * 60 + now.getMinutes();
             const percentage = (currentMinutes / totalMinutes) * 100;
             
+            // Update progress bar elements
             document.getElementById('progressPassed').style.width = `${percentage}%`;
             document.getElementById('timeIndicator').style.left = `${percentage}%`;
             document.getElementById('progressPercent').textContent = `${Math.round(percentage)}%`;
             
-            // Update time progress line in schedule
+            // Update the red line in the schedule
             updateTimeProgressLine(percentage);
         }
 
+        /**
+         * Update the position of the red time line in the schedule
+         * @param {number} percentage - Percentage through the day (0-100)
+         */
         function updateTimeProgressLine(percentage) {
             const eventsColumn = document.getElementById('eventsColumn');
             const progressLine = document.getElementById('timeProgressLine');
             if (eventsColumn && progressLine) {
-                const columnHeight = eventsColumn.scrollHeight;
-                const linePosition = (percentage / 100) * columnHeight;
-                progressLine.style.top = `${linePosition}px`;
+                const columnHeight = eventsColumn.scrollHeight; // Total height
+                const linePosition = (percentage / 100) * columnHeight; // Calculate position
+                progressLine.style.top = `${linePosition}px`; // Set position
             }
         }
 
-        // Schedule Functions
+        // ================================
+        // SCHEDULE FUNCTIONS
+        // ================================
+        
+        /**
+         * Create the hourly time slots and event rows
+         * Rebuilds the entire schedule grid
+         */
         function createTimeSlots() {
             const timeColumn = document.getElementById('timeColumn');
             const eventsColumn = document.getElementById('eventsColumn');
             
+            // Clear existing content
             timeColumn.innerHTML = '';
             eventsColumn.innerHTML = '<div class="time-progress-line" id="timeProgressLine"></div>';
             
+            // Create a row for each hour (0-23)
             for (let hour = 0; hour < 24; hour++) {
-                // Create time slot
+                // Create time label (e.g., "09:00")
                 const timeSlot = document.createElement('div');
                 timeSlot.className = 'time-slot';
-                if (hour % 1 === 0) timeSlot.classList.add('hour');
-                if (hour === 12) timeSlot.classList.add('noon');
+                if (hour % 1 === 0) timeSlot.classList.add('hour'); // Mark full hours
+                if (hour === 12) timeSlot.classList.add('noon');    // Special noon styling
                 
-                const timeString = `${String(hour).padStart(2, '0')}:00`;
+                const timeString = `${String(hour).padStart(2, '0')}:00`; // Format as HH:00
                 timeSlot.textContent = timeString;
                 timeColumn.appendChild(timeSlot);
                 
-                // Create events row
+                // Create corresponding events row
                 const eventsRow = document.createElement('div');
                 eventsRow.className = 'events-row';
-                eventsRow.dataset.hour = hour;
+                eventsRow.dataset.hour = hour;     // Store hour for drag-drop
                 
-                // Add events for this hour
+                // Find all events for this hour
                 const hourEvents = scheduleData.filter(event => {
                     const eventHour = parseInt(event.time.split(':')[0]);
                     return eventHour === hour;
                 });
                 
+                // Add event blocks
                 hourEvents.forEach(event => {
                     eventsRow.appendChild(createEventBlock(event));
                 });
                 
-                // Add button
+                // Add "+" button to add new events
                 const addBtn = document.createElement('button');
                 addBtn.className = 'add-event-btn';
                 addBtn.textContent = '+';
                 addBtn.onclick = () => addNewEvent(`${String(hour).padStart(2, '0')}:00`);
                 eventsRow.appendChild(addBtn);
                 
-                // Drag and drop listeners
+                // Set up drag-and-drop event listeners
                 eventsRow.addEventListener('dragover', handleDragOver);
                 eventsRow.addEventListener('drop', handleDrop);
                 eventsRow.addEventListener('dragleave', handleDragLeave);
@@ -916,119 +1144,177 @@
                 eventsColumn.appendChild(eventsRow);
             }
             
-            updateTime();
+            updateTime();                          // Refresh time displays
         }
 
+        /**
+         * Create a single event block element
+         * @param {Object} event - Event data object
+         * @returns {HTMLElement} The created event block
+         */
         function createEventBlock(event) {
+            // Find the category for color
             const category = categories.find(c => c.id === event.category);
+            
+            // Create main event container
             const eventBlock = document.createElement('div');
             eventBlock.className = 'event-block';
             eventBlock.id = `event-${event.id}`;
-            eventBlock.draggable = true;
+            eventBlock.draggable = true;           // Make draggable
             eventBlock.style.backgroundColor = category ? category.color : '#e3f2fd';
             
+            // Create editable text input
             const input = document.createElement('input');
             input.type = 'text';
             input.className = 'event-content';
             input.value = event.content;
             input.onchange = (e) => updateEventContent(event.id, e.target.value);
             
+            // Create delete button
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-btn';
             deleteBtn.textContent = '×';
             deleteBtn.onclick = () => deleteEvent(event.id);
             
+            // Assemble the event block
             eventBlock.appendChild(input);
             eventBlock.appendChild(deleteBtn);
             
-            // Drag events
+            // Add drag event listeners
             eventBlock.addEventListener('dragstart', handleDragStart);
             eventBlock.addEventListener('dragend', handleDragEnd);
             
             return eventBlock;
         }
 
+        /**
+         * Add a new event at the specified time
+         * @param {string} time - Time in HH:MM format
+         */
         function addNewEvent(time) {
             const newEvent = {
-                id: nextEventId++,
+                id: nextEventId++,                 // Assign unique ID
                 time: time,
-                content: "New Event",
-                category: categories[0]?.id || "personal"
+                content: "New Event",               // Default text
+                category: categories[0]?.id || "personal" // Default category
             };
-            scheduleData.push(newEvent);
-            saveData();
-            createTimeSlots();
+            scheduleData.push(newEvent);           // Add to data array
+            saveData();                            // Persist changes
+            createTimeSlots();                     // Rebuild UI
         }
 
+        /**
+         * Delete an event by ID
+         * @param {number} eventId - ID of event to delete
+         */
         function deleteEvent(eventId) {
-            scheduleData = scheduleData.filter(e => e.id !== eventId);
-            saveData();
-            createTimeSlots();
+            scheduleData = scheduleData.filter(e => e.id !== eventId); // Remove from array
+            saveData();                            // Persist changes
+            createTimeSlots();                     // Rebuild UI
         }
 
+        /**
+         * Update event text content
+         * @param {number} eventId - ID of event to update
+         * @param {string} newContent - New text content
+         */
         function updateEventContent(eventId, newContent) {
             const event = scheduleData.find(e => e.id === eventId);
             if (event) {
-                event.content = newContent;
-                saveData();
+                event.content = newContent;        // Update content
+                saveData();                        // Persist changes
             }
         }
 
-        // Drag and Drop
+        // ================================
+        // DRAG AND DROP HANDLERS
+        // ================================
+        
+        /**
+         * Handle start of drag operation
+         * @param {DragEvent} e - Drag event
+         */
         function handleDragStart(e) {
-            draggedElement = e.target;
-            e.target.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', e.target.innerHTML);
+            draggedElement = e.target;             // Store reference to dragged element
+            e.target.classList.add('dragging');    // Add visual feedback
+            e.dataTransfer.effectAllowed = 'move'; // Set drag effect
+            e.dataTransfer.setData('text/html', e.target.innerHTML); // Store data
         }
 
+        /**
+         * Handle end of drag operation
+         * @param {DragEvent} e - Drag event
+         */
         function handleDragEnd(e) {
-            e.target.classList.remove('dragging');
+            e.target.classList.remove('dragging'); // Remove visual feedback
+            // Clean up any remaining drag-over styling
             document.querySelectorAll('.drag-over').forEach(el => {
                 el.classList.remove('drag-over');
             });
-            draggedElement = null;
+            draggedElement = null;                 // Clear reference
         }
 
+        /**
+         * Handle dragging over a valid drop target
+         * @param {DragEvent} e - Drag event
+         */
         function handleDragOver(e) {
             if (e.preventDefault) {
-                e.preventDefault();
+                e.preventDefault();                // Allow drop
             }
-            e.dataTransfer.dropEffect = 'move';
-            e.currentTarget.classList.add('drag-over');
+            e.dataTransfer.dropEffect = 'move';    // Set cursor
+            e.currentTarget.classList.add('drag-over'); // Visual feedback
             return false;
         }
 
+        /**
+         * Handle leaving a drop target
+         * @param {DragEvent} e - Drag event
+         */
         function handleDragLeave(e) {
+            // Only remove styling if actually leaving the element
             if (e.currentTarget.contains(e.relatedTarget)) return;
             e.currentTarget.classList.remove('drag-over');
         }
 
+        /**
+         * Handle dropping an element
+         * @param {DragEvent} e - Drag event
+         */
         function handleDrop(e) {
             if (e.stopPropagation) {
-                e.stopPropagation();
+                e.stopPropagation();               // Stop event bubbling
             }
             e.preventDefault();
             
-            e.currentTarget.classList.remove('drag-over');
+            e.currentTarget.classList.remove('drag-over'); // Remove visual feedback
             
-            if (!draggedElement) return;
+            if (!draggedElement) return;          // No element being dragged
             
+            // Extract event ID from element ID (e.g., "event-5" -> 5)
             const eventId = parseInt(draggedElement.id.split('-')[1]);
             const newHour = parseInt(e.currentTarget.dataset.hour);
             const newTime = `${String(newHour).padStart(2, '0')}:00`;
             
+            // Update event time in data
             const event = scheduleData.find(ev => ev.id === eventId);
             if (event) {
-                event.time = newTime;
-                saveData();
-                createTimeSlots();
+                event.time = newTime;              // Update time
+                saveData();                        // Persist changes
+                createTimeSlots();                 // Rebuild UI
             }
             
             return false;
         }
 
-        // Calendar Functions
+        // ================================
+        // CALENDAR FUNCTIONS
+        // ================================
+        
+        /**
+         * Create the mini calendar widget
+         * Shows current month with navigation
+         */
         function createMiniCalendar() {
             const year = viewingMonth.getFullYear();
             const month = viewingMonth.getMonth();
@@ -1036,91 +1322,119 @@
             const monthNames = ["January", "February", "March", "April", "May", "June",
                               "July", "August", "September", "October", "November", "December"];
             
+            // Update month/year display
             document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
             
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
+            // Calculate calendar layout
+            const firstDay = new Date(year, month, 1).getDay(); // Day of week for 1st
+            const daysInMonth = new Date(year, month + 1, 0).getDate(); // Total days
+            const daysInPrevMonth = new Date(year, month, 0).getDate(); // Previous month days
             
             let calendarHTML = '';
             
-            // Day headers
+            // Add day headers (Su, Mo, Tu, etc.)
             ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].forEach(day => {
                 calendarHTML += `<div class="calendar-day header">${day}</div>`;
             });
             
-            // Previous month days
+            // Add previous month's trailing days (grayed out)
             for (let i = firstDay - 1; i >= 0; i--) {
                 calendarHTML += `<div class="calendar-day other-month">${daysInPrevMonth - i}</div>`;
             }
             
-            // Current month days
+            // Add current month's days
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
                 const isToday = date.toDateString() === currentDate.toDateString();
                 const isSelected = date.toDateString() === selectedDate.toDateString();
                 
                 let classes = 'calendar-day';
-                if (isToday) classes += ' current';
-                if (isSelected && !isToday) classes += ' selected';
+                if (isToday) classes += ' current';        // Highlight today
+                if (isSelected && !isToday) classes += ' selected'; // Highlight selected
                 
+                // Make clickable with onclick handler
                 calendarHTML += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">${day}</div>`;
             }
             
-            // Next month days
-            const remainingDays = 42 - (firstDay + daysInMonth);
+            // Add next month's leading days (grayed out)
+            const remainingDays = 42 - (firstDay + daysInMonth); // Fill to 6 weeks
             for (let day = 1; day <= remainingDays; day++) {
                 calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
             }
             
+            // Update the calendar grid
             document.getElementById('calendarGrid').innerHTML = calendarHTML;
         }
 
+        /**
+         * Handle date selection from calendar
+         * @param {number} year - Selected year
+         * @param {number} month - Selected month (0-11)
+         * @param {number} day - Selected day (1-31)
+         */
         function selectDate(year, month, day) {
-            selectedDate = new Date(year, month, day);
-            saveData();
-            createMiniCalendar();
-            updateTime();
+            selectedDate = new Date(year, month, day); // Update selected date
+            saveData();                            // Persist selection
+            createMiniCalendar();                  // Refresh calendar
+            updateTime();                          // Update date display
         }
 
+        /**
+         * Navigate to previous month in calendar
+         */
         function previousMonth() {
-            viewingMonth.setMonth(viewingMonth.getMonth() - 1);
-            createMiniCalendar();
+            viewingMonth.setMonth(viewingMonth.getMonth() - 1); // Go back one month
+            createMiniCalendar();                  // Refresh calendar
         }
 
+        /**
+         * Navigate to next month in calendar
+         */
         function nextMonth() {
-            viewingMonth.setMonth(viewingMonth.getMonth() + 1);
-            createMiniCalendar();
+            viewingMonth.setMonth(viewingMonth.getMonth() + 1); // Go forward one month
+            createMiniCalendar();                  // Refresh calendar
         }
 
-        // Category Functions
+        // ================================
+        // CATEGORY FUNCTIONS
+        // ================================
+        
+        /**
+         * Create the category list UI
+         * Shows all categories with color indicators
+         */
         function createCategoryList() {
             const categoryList = document.getElementById('categoryList');
-            categoryList.innerHTML = '';
+            categoryList.innerHTML = '';           // Clear existing list
             
+            // Create UI for each category
             categories.forEach(category => {
                 const item = document.createElement('div');
                 item.className = 'category-item';
                 
+                // Color indicator (clickable to change color)
                 const color = document.createElement('div');
                 color.className = 'category-color';
                 if (selectedCategoryForColor === category.id) {
-                    color.classList.add('selected');
+                    color.classList.add('selected'); // Highlight if selected for color change
                 }
                 color.style.backgroundColor = category.color;
                 color.onclick = () => selectCategoryForColor(category.id);
                 
+                // Editable name field
                 const name = document.createElement('input');
                 name.type = 'text';
                 name.className = 'category-name';
                 name.value = category.name;
                 name.onchange = (e) => updateCategoryName(category.id, e.target.value);
                 
+                // Delete button
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = 'category-delete';
                 deleteBtn.textContent = '×';
                 deleteBtn.onclick = () => deleteCategory(category.id);
                 
+                // Assemble the category item
                 item.appendChild(color);
                 item.appendChild(name);
                 item.appendChild(deleteBtn);
@@ -1128,110 +1442,160 @@
             });
         }
 
+        /**
+         * Create the color selection palette
+         * Shows available colors for categories
+         */
         function createColorPalette() {
             const palette = document.getElementById('colorPalette');
-            palette.innerHTML = '';
+            palette.innerHTML = '';                // Clear existing palette
             
+            // Create clickable color swatches
             colorOptions.forEach(color => {
                 const option = document.createElement('div');
                 option.className = 'color-option';
                 option.style.backgroundColor = color;
-                option.onclick = () => selectColor(color);
+                option.onclick = () => selectColor(color); // Click to apply color
                 palette.appendChild(option);
             });
         }
 
+        /**
+         * Add a new category with random color
+         */
         function addCategory() {
             const newCategory = {
-                id: `category-${nextCategoryId++}`,
-                name: "New Category",
-                color: colorOptions[Math.floor(Math.random() * colorOptions.length)]
+                id: `category-${nextCategoryId++}`, // Generate unique ID
+                name: "New Category",               // Default name
+                color: colorOptions[Math.floor(Math.random() * colorOptions.length)] // Random color
             };
-            categories.push(newCategory);
-            saveData();
-            createCategoryList();
+            categories.push(newCategory);          // Add to array
+            saveData();                            // Persist changes
+            createCategoryList();                  // Refresh UI
         }
 
+        /**
+         * Delete a category by ID
+         * @param {string} categoryId - ID of category to delete
+         */
         function deleteCategory(categoryId) {
-            if (categories.length <= 1) {
+            if (categories.length <= 1) {          // Prevent deleting last category
                 alert('You must have at least one category');
                 return;
             }
-            categories = categories.filter(c => c.id !== categoryId);
-            saveData();
-            createCategoryList();
-            createTimeSlots();
+            categories = categories.filter(c => c.id !== categoryId); // Remove from array
+            saveData();                            // Persist changes
+            createCategoryList();                  // Refresh category list
+            createTimeSlots();                     // Refresh events (colors may change)
         }
 
+        /**
+         * Update category name
+         * @param {string} categoryId - ID of category to update
+         * @param {string} newName - New name for category
+         */
         function updateCategoryName(categoryId, newName) {
             const category = categories.find(c => c.id === categoryId);
             if (category) {
-                category.name = newName;
-                saveData();
+                category.name = newName;           // Update name
+                saveData();                        // Persist changes
             }
         }
 
+        /**
+         * Mark a category for color change
+         * @param {string} categoryId - ID of category to recolor
+         */
         function selectCategoryForColor(categoryId) {
-            selectedCategoryForColor = categoryId;
-            createCategoryList();
+            selectedCategoryForColor = categoryId; // Store selection
+            createCategoryList();                  // Refresh UI to show selection
         }
 
+        /**
+         * Apply selected color to selected category
+         * @param {string} color - Hex color code
+         */
         function selectColor(color) {
-            if (selectedCategoryForColor) {
+            if (selectedCategoryForColor) {        // If a category is selected
                 const category = categories.find(c => c.id === selectedCategoryForColor);
                 if (category) {
-                    category.color = color;
-                    saveData();
-                    createCategoryList();
-                    createTimeSlots();
+                    category.color = color;         // Update color
+                    saveData();                    // Persist changes
+                    createCategoryList();          // Refresh category list
+                    createTimeSlots();             // Refresh events with new color
                 }
             }
         }
 
-        // Sync Functions
+        // ================================
+        // SYNC FUNCTIONS (MOCK)
+        // ================================
+        // These are placeholder functions for calendar sync
+        // In a real app, these would connect to actual APIs
+        
+        /**
+         * Mock Google Calendar sync
+         * Shows status message simulating connection
+         */
         function syncGoogleCalendar() {
             const status = document.getElementById('syncStatus');
             status.textContent = 'Connecting to Google...';
+            // Simulate API call with timeout
             setTimeout(() => {
                 status.textContent = 'Google Calendar connected ✓';
-                status.style.color = '#22c55e';
+                status.style.color = '#22c55e';    // Green for success
             }, 1500);
         }
 
+        /**
+         * Mock Outlook sync
+         * Shows status message simulating connection
+         */
         function syncOutlook() {
             const status = document.getElementById('syncStatus');
             status.textContent = 'Connecting to Outlook...';
+            // Simulate API call with timeout
             setTimeout(() => {
                 status.textContent = 'Outlook connected ✓';
-                status.style.color = '#22c55e';
+                status.style.color = '#22c55e';    // Green for success
             }, 1500);
         }
 
-        // Initialize Application
+        // ================================
+        // INITIALIZATION
+        // ================================
+        
+        /**
+         * Initialize the entire application
+         * Sets up all components and starts update loops
+         */
         function init() {
-            loadData();
+            loadData();                            // Load saved data from storage
             
+            // Apply dark mode if it was saved
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
                 const icon = document.getElementById('themeIcon');
+                // Set moon icon for dark mode
                 icon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
             }
             
-            createTimeSlots();
-            createMiniCalendar();
-            createCategoryList();
-            createColorPalette();
-            updateTime();
+            // Initialize all UI components
+            createTimeSlots();                     // Build schedule grid
+            createMiniCalendar();                  // Build calendar
+            createCategoryList();                  // Build category list
+            createColorPalette();                  // Build color picker
+            updateTime();                          // Set initial time
             
-            // Update time every second
-            setInterval(updateTime, 1000);
-            
-            // Auto-save every 30 seconds
-            setInterval(saveData, 30000);
+            // Set up recurring updates
+            setInterval(updateTime, 1000);         // Update time every second
+            setInterval(saveData, 30000);          // Auto-save every 30 seconds
         }
 
-        // Start the application
-        init();
+        // ================================
+        // START THE APPLICATION
+        // ================================
+        init();                                    // Run initialization when page loads
     </script>
 </body>
 </html>
